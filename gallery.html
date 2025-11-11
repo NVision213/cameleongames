@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>STREETX — Site Oficial (with improved Lightbox toolbar)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ================= GLOBAL ================= */
+:root {
+  --nav-height: 110px;
+  --accent: rgba(255,255,255,.95);
+}
+
+/* Scrollbar universal (merge și pe localhost) */
+html, body {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(120,120,120,0.7) transparent; /* culoare gri închis + fundal invizibil */
+}
+
+/* Chrome, Edge, Safari */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: transparent; /* fundal invizibil */
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(120,120,120,0.7); /* gri închis */
+  border-radius: 10px;
+  border: 2px solid transparent; /* opțional – face marginile mai fine */
+  background-clip: content-box;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(160,160,160,0.8); /* puțin mai deschis la hover */
+}
+
+/* Body */
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #f8f8ff;
+  background: linear-gradient(#222, #000);
+  overflow-x: hidden;
+  min-height: 100vh;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* === TOPBAR === */
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--nav-height);display:flex;align-items:center;justify-content:space-between;padding:0 50px;z-index:100;background:transparent;backdrop-filter:none;transition:background .5s ease,backdrop-filter .5s ease,transform .6s ease,opacity .6s ease;}
+.topbar.with-bg{background:rgba(0,0,0,.55);backdrop-filter:blur(14px)saturate(140%)brightness(1.1);box-shadow:0 0 20px rgba(255,255,255,.05);opacity:1;transform:translateY(0);}
+.topbar.hidden{opacity:0;transform:translateY(calc(-1*var(--nav-height)));pointer-events:none;}
+.topbar.initial{background:transparent;backdrop-filter:none;box-shadow:none;opacity:1;transform:translateY(0);}
+.logo{height:100px;margin-left:0;transition:transform .3s ease;}
+.logo:hover{transform:scale(1);}
+.nav-right{display:flex;gap:16px;align-items:center;}
+.nav-center{position:absolute;left:50%;transform:translateX(-50%);}
+.btn-play,.btn-check{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 30px;border-radius:999px;border:1.5px solid rgba(255,255,255,.8);background:transparent;color:var(--accent);font-weight:700;text-decoration:none;font-size:15px;letter-spacing:.4px;white-space:nowrap;transition:all .25s ease;box-shadow:0 0 8px rgba(255,255,255,.3),inset 0 0 8px rgba(255,255,255,.08);}
+.btn-play:hover,.btn-check:hover{background:rgba(255,255,255,.2);box-shadow:0 0 12px rgba(255,255,255,.45),inset 0 0 16px rgba(255,255,255,.5);border-color:rgba(255,255,255,.9);}
+.btn-nav{display:inline-flex;align-items:center;justify-content:center;padding:15px 36px;border-radius:999px;border:none;background:transparent;color:rgba(255,255,255,.75);font-weight:700;text-decoration:none;font-size:15px;letter-spacing:.4px;white-space:nowrap;transition:all .25s ease;}
+.btn-nav:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);backdrop-filter:blur(10px)saturate(140%);box-shadow:0 8px 24px rgba(0,0,0,.6),inset 0 0 14px rgba(255,255,255,.35);}
+
+/* === BUTOANE EXISTENTE === */
+.btn-play,.btn-check{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 30px;border-radius:999px;border:1.5px solid rgba(255,255,255,.8);background:transparent;color:var(--accent);font-weight:700;text-decoration:none;font-size:15px;letter-spacing:.4px;white-space:nowrap;transition:all .25s ease;box-shadow:0 0 8px rgba(255,255,255,.3),inset 0 0 8px rgba(255,255,255,.08);}
+.btn-play:hover,.btn-check:hover{background:rgba(255,255,255,.2);box-shadow:0 0 12px rgba(255,255,255,.45),inset 0 0 16px rgba(255,255,255,.5);border-color:rgba(255,255,255,.9);}
+
+/* === BUTON DE NAVIGARE (GALLERY/HOME) === */
+.btn-nav{display:inline-flex;align-items:center;justify-content:center;padding:15px 36px;border-radius:999px;border:none;background:transparent;color:var(--accent);font-weight:700;text-decoration:none;font-size:15px;letter-spacing:.4px;white-space:nowrap;transition:all .25s ease;}
+.btn-nav:hover{background:rgba(255,255,255,.06);backdrop-filter:blur(10px)saturate(140%);box-shadow:0 8px 24px rgba(0,0,0,.6),inset 0 0 14px rgba(255,255,255,.35);}
+
+/* GALLERY */
+:root { --gallery-gap:26px; --gallery-columns:3; }
+.gallery-section{padding:180px 6vw 100px;background:#000;}
+.gallery-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
+.gallery-title { font-family: Inter, system-ui; font-weight: 1000; font-size: 50px; text-transform: uppercase; letter-spacing: 3px; color: #fff; line-height: 1.1; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+.sort-toggle { border: 2px solid rgba(255,255,255,0.7); background: transparent; color: #fff; font-weight: 700; font-size: 15px; padding: 12px 32px; border-radius: 999px; letter-spacing: 0.8px; transition: background 0.3s ease, border 0.3s ease; box-shadow: 0 0 8px rgba(255,255,255,0.3); cursor: pointer; }
+.sort-toggle:hover { background: #2a2a2a; border-color: transparent; box-shadow: none; transform: none; }
+.gallery-grid{display:grid;grid-template-columns:repeat(var(--gallery-columns),1fr);gap:var(--gallery-gap);overflow:hidden;will-change:max-height;}
+.card{position:relative;overflow:hidden;border-radius:12px;transform:translateY(12px);opacity:0;transition:transform .45s cubic-bezier(.2,.9,.3,1),opacity .45s cubic-bezier(.2,.9,.3,1);}
+.card.visible{transform:translateY(0);opacity:1;}
+.card img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease,opacity .5s ease;border-radius:12px;cursor:pointer;}
+.card img:hover{transform:scale(1.03);opacity:.95;}
+.date-label{position:absolute;left:12px;top:10px;background:rgba(255,255,255,0.08);backdrop-filter:blur(8px) saturate(180%) brightness(1.3);padding:6px 12px;border-radius:12px;font-size:12px;font-weight:600;letter-spacing:.3px;color:rgba(255,255,255,0.9);box-shadow:0 0 12px rgba(255,255,255,0.05);transition:all .35s ease;}
+.card:hover .date-label{background:rgba(255,255,255,0.03);backdrop-filter:blur(2px);color:rgba(255,255,255,0.95);text-shadow:0 0 10px rgba(255,255,255,0.4);}
+.actions{display:flex;align-items:center;justify-content:center;margin-top:42px;position:relative;}
+.actions::before,.actions::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.18);margin:0 20px;}
+.view-more-btn{cursor:pointer;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:10px 20px;transition:opacity .25s ease;}
+.view-more-btn:hover{opacity:.7;}
+@media(max-width:980px){.gallery-grid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:600px){.gallery-grid{grid-template-columns:1fr;}.gallery-title{font-size:28px;} }
+  
+.community-section{position:relative;overflow:hidden;padding:120px 20px;text-align:center;background:#000}
+.community-bg{position:absolute;inset:0;width:100%;height:130%;background:url("https://iili.io/KDtxkKv.png")center/cover no-repeat;will-change:background-position;z-index:0;transition:background-position .1s linear}
+.community-fade-top,.community-fade-bottom{position:absolute;left:0;width:100%;height:100px;z-index:1}
+.community-fade-top{top:0;background:linear-gradient(to bottom,#000 0%,transparent 100%)}
+.community-fade-bottom{bottom:0;background:linear-gradient(to top,#000 0%,transparent 100%)}
+.community-content{position:relative;z-index:2;max-width:800px;margin:0 auto;color:#fff}
+.community-logo img{width:100px;height:auto;margin-bottom:24px}
+.community-title{font-size:clamp(24px,3vw,32px);font-weight:800;margin-bottom:16px;color:#fff}
+.community-text{font-size:18px;line-height:1.6;max-width:720px;margin:0 auto 36px;color:#ddd}
+.community-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 32px;border-radius:999px;border:1.5px solid rgba(255,255,255,.8);background:transparent;color:#f8f8ff;font-weight:700;font-size:15px;letter-spacing:.4px;text-decoration:none;white-space:nowrap;transition:all .25s ease;box-shadow:0 0 8px rgba(255,255,255,.3),inset 0 0 8px rgba(255,255,255,.08)}
+.community-btn:hover{background:rgba(255,255,255,.2);box-shadow:0 0 12px rgba(255,255,255,.45),inset 0 0 16px rgba(255,255,255,.5);border-color:rgba(255,255,255,.95)}
+
+/* === FOOTER === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+footer,.footer-copy{background:#000;font-family:'Poppins',sans-serif;color:#44413a}
+footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:flex-end;font-weight:400;letter-spacing:.4px}
+.footer-left,.footer-center,.year{font-size:15px}
+.footer-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center;} /* centrat perfect */
+.footer-right{text-align:center}
+.social-icons{display:flex;gap:14px;justify-content:center;margin-bottom:20px;transform:translateX(-10px)}
+.social-icons img{width:30px;border-radius:10px;filter:grayscale(100%) brightness(.6);transition:filter .15s}
+.social-icons img:hover{filter:grayscale(0) brightness(1)}
+.year{margin-top:6px}
+.footer-copy{text-align:center;margin:15px 0 0;padding:15px 0 25px;font-weight:600;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+
+/* === LIGHTBOX === */
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);justify-content:center;align-items:center;z-index:9999;overflow:hidden;opacity:0;transition:opacity .4s ease;}
+.lightbox.show{display:flex;opacity:1;}
+.lightbox.fade-out{opacity:0;transition:opacity .4s ease;}
+.lightbox img#lightboxImage{max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 0 40px rgba(0,0,0,.6);transition:transform .5s ease,opacity .5s ease;will-change:transform;cursor:grab;}
+.lightbox img#lightboxImage:active{cursor:grabbing;}
+.toolbar-btn,.close-btn{width:46px;height:46px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:rgba(255,255,255,.06);backdrop-filter:blur(10px)saturate(140%);box-shadow:0 8px 24px rgba(0,0,0,.6);border:none;cursor:pointer;transition:all .25s ease;}
+.close-btn{position:fixed;top:28px;right:45px;z-index:10005;}
+.toolbar-btn:hover,.close-btn:hover{background:rgba(255,255,255,.14);box-shadow:inset 0 0 14px rgba(255,255,255,.4);}
+.toolbar-btn img,.close-btn img{width:26px;height:26px;pointer-events:none;}
+.arrow{position:fixed;top:50%;transform:translateY(-50%);opacity:0;transition:opacity .25s ease,transform .3s ease;cursor:pointer;user-select:none;z-index:10000;pointer-events:none;height:20px;width:auto;filter:brightness(.9);}
+.left-arrow{left:24px;}
+.right-arrow{right:24px;}
+.lightbox:hover .arrow{opacity:.25;pointer-events:auto;}
+.arrow:hover{opacity:1;transform:translateY(-50%)scale(1.15);filter:brightness(1.2);}
+.lightbox-toolbar{position:fixed;top:24px;right:110px;z-index:10003;opacity:0;pointer-events:none;transition:opacity .25s ease;display:flex;align-items:center;}
+.lightbox-toolbar.visible{opacity:1;pointer-events:auto;}
+.toolbar-inner{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.06);border-radius:14px;padding:8px 12px;backdrop-filter:blur(10px)saturate(140%);box-shadow:0 8px 24px rgba(0,0,0,.6);}
+.toolbar-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;border:none;background:rgba(255,255,255,.04);cursor:pointer;transition:all .2s ease;}
+.toolbar-btn img{width:20px;height:20px;opacity:.9;transition:transform .15s ease,opacity .15s ease;}
+.toolbar-btn:hover{background:rgba(255,255,255,.13);box-shadow:inset 0 0 16px rgba(255,255,255,.45);transform:translateY(-1px);}
+.toolbar-btn:active img{transform:scale(.97);}
+@media(max-width:720px){.toolbar-inner{gap:8px;padding:6px 8px}.toolbar-btn{width:36px;height:36px}.close-btn{right:18px}.lightbox-toolbar{right:70px;top:16px}}
+
+/* ========== LANG SELECTOR (TEXT MAI APROAPE DE GLOB) ========== */
+.lang{position:relative;top:-20px;margin-left:-80px;}
+#langBtn{display:flex;align-items:center;gap:14px;background:none;border:none;cursor:pointer;font:600 13.5px 'Poppins',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#77746b;transition:color .2s;}
+#langBtn:hover{color:#999688;}
+.lang-icon{width:22px;height:22px;filter:grayscale(100%) brightness(.8);margin-right:-6px;} /* text mai aproape de glob */
+#langBtnText{color:#d2d2d2;} /* gri deschis spre alb */
+.lang-arrow{width:18px;height:18px;transition:transform .25s ease;filter:brightness(.8);margin-left:10px;} /* mai mult spațiu între text și săgeată */
+#langBtn[aria-expanded="true"] .lang-arrow{transform:rotate(180deg);}
+.lang-menu{display:none;position:absolute;left:0;bottom:100%;margin-bottom:6px;background:#0d0d0d;border:1.5px solid rgba(180,180,180,.25);border-radius:10px;min-width:150px;z-index:999;text-align:left;padding:4px 0;box-shadow:0 0 10px rgba(255,255,255,.08),0 0 6px rgba(160,160,160,.1);max-height:115px;overflow-y:auto;scrollbar-width:none;}
+.lang-menu::-webkit-scrollbar{display:none;}
+.lang-menu.show{display:block;animation:fadeUp .25s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.lang-option{padding:10px 18px;cursor:pointer;font:500 13.5px 'Poppins',sans-serif;color:#ccc;letter-spacing:.5px;text-transform:uppercase;transition:background .2s,color .2s;}
+.lang-option:hover{background:#1c1c1c;color:#fff;}
+.lang-option:not(:last-child){border-bottom:1px solid rgba(255,255,255,.07);}
+
+  #loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;} 
+#loader.hide{opacity:0;pointer-events:none;}
+.shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
+.shine-mask::before{content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 4.5s cubic-bezier(.30,0,.15,1) forwards;}
+@keyframes shine{0%{left:0%;}100%{left:100%;}}
+  
+/* === VARIANTA MOBILĂ FINALĂ COMBINATĂ (FĂRĂ HERO) === */
+#loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;}
+#loader.hide{opacity:0;pointer-events:none;}
+.shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
+.shine-mask::before{content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 4.5s cubic-bezier(.30,0,.15,1) forwards;}
+@keyframes shine{0%{left:0%;}100%{left:100%;}}
+@media(max-width:1250px){
+:root{--nav-height:65px;}
+.topbar{padding:0 18px;}
+.logo{height:65px;}
+.nav-right .btn-play{padding:10px 20px;font-size:13px;border-width:1px;box-shadow:0 0 6px rgba(255,255,255,.2),inset 0 0 6px rgba(255,255,255,.05);margin-top:8px;}
+.btn-nav{padding:10px 24px;font-size:13px;color:rgba(255,255,255,.65);display:block;margin:0 auto;transform:translateX(-25%);} /* mutat stânga și centrat */
+.btn-nav:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);backdrop-filter:blur(10px)saturate(140%);box-shadow:0 6px 18px rgba(0,0,0,.5),inset 0 0 12px rgba(255,255,255,.3);}
+.gallery-section{padding:120px 5vw 80px;}
+.gallery-title{font-size:28px;letter-spacing:2px;text-align:center;}
+.sort-toggle{font-size:12px;padding:8px 22px;border-width:1px;border-radius:9999px;letter-spacing:.6px;box-shadow:0 0 6px rgba(255,255,255,.25);}
+.gallery-header{flex-direction:column;gap:14px;align-items:center;margin-bottom:24px;}
+.gallery-grid{grid-template-columns:1fr;gap:18px;}
+.card img{border-radius:10px;}
+.date-label{font-size:11px;padding:5px 10px;}
+.view-more-btn{font-size:12px;padding:8px 16px;}
+.actions{margin-top:32px;}
+.shine-mask{width:95vw;aspect-ratio:2.5/1;} /* logo mai mare pe mobil */
+}
+@media(max-width:360px){
+.gallery-section{padding:100px 4vw 60px;}
+.gallery-title{font-size:24px;}
+.gallery-grid{gap:14px;}
+.shine-mask{width:100vw;}
+.btn-nav{transform:translateX(-20%);} /* ajustare extra pt ecrane mici */
+}
+</style>
+</head>
+<body>
+<div id="loader"><div class="shine-mask cameleon"></div></div>
+<header class="topbar" id="topbar">
+  <img class="logo" src="https://iili.io/KshRKZB.png" alt="Studio Logo">
+  <div class="nav-center">
+    <a class="btn-nav" href="index.html">GALLERY</a>
+  </div>
+  <div class="nav-right">
+    <a class="btn-play" href="https://www.roblox.com/games/118453831024315/THE-CANYON-STREETX" target="_blank">
+      <span>PLAY ON ROBLOX</span>
+    </a>
+  </div>
+</header>
+<main>
+  <section class="hero">
+  <div class="slides" id="slides"></div>
+  <div class="controls" id="controls">
+</section>
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <div class="gallery-title">NEW DEVELOPMENT</div>
+      <a id="sortToggle" class="btn-play sort-toggle"><span>OLDEST</span></a>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- imaginile tale (am păstrat aceleași linkuri) -->
+      <div class="card"><span class="date-label">Nov 1, 2025</span><img src="https://iili.io/KLVSFDX.png" alt=""></div>
+      <div class="card"><span class="date-label">Nov 1, 2025</span><img src="https://iili.io/KLVS3Nt.png" alt=""></div>
+      <div class="card"><span class="date-label">Nov 1, 2025</span><img src="https://iili.io/KLVS2RI.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/Kf1f5t1.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/Kf1fYoF.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/KfENJ3P.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/Kf1faMg.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/KfVQHMl.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/KfVQJP2.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/Kf1fAAB.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/KfW9TyN.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/KfW9AuI.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/KfWKHVS.png" alt=""></div>
+      <div class="card"><span class="date-label">Sept 1, 2025</span><img src="https://iili.io/KfWKJi7.png" alt=""></div>
+      <div class="card"><span class="date-label">August 1, 2025</span><img src="https://iili.io/FbEHB0Q.png" alt=""></div>
+      <div class="card"><span class="date-label">July 22, 2025</span><img src="https://iili.io/Fb1Qj19.png" alt=""></div>
+      <div class="card"><span class="date-label">July 1, 2025</span><img src="https://iili.io/Fb1gukB.png" alt=""></div>
+      <div class="card"><span class="date-label">June 27, 2025</span><img src="https://iili.io/Fb10sHl.png" alt=""></div>
+      <div class="card"><span class="date-label">June 27, 2025</span><img src="https://iili.io/Fb106lf.png" alt=""></div>
+      <div class="card"><span class="date-label">June 27, 2025</span><img src="https://iili.io/Fb10LR2.png" alt=""></div>
+      <div class="card"><span class="date-label">June 27, 2025</span><img src="https://iili.io/FDOIV0N.png" alt=""></div>
+      <div class="card"><span class="date-label">June 1, 2025</span><img src="https://iili.io/FDOIY5F.png" alt=""></div>
+      <div class="card"><span class="date-label">May 24, 2025</span><img src="https://iili.io/Fb0XsP1.png" alt=""></div>
+      <div class="card"><span class="date-label">May 24, 2025</span><img src="https://iili.io/Fb0XiMP.png" alt=""></div>
+      <div class="card"><span class="date-label">May 24, 2025</span><img src="https://iili.io/FDOI0zJ.png" alt=""></div>
+      <div class="card"><span class="date-label">May 4, 2025</span><img src="https://iili.io/FDOI7J1.png" alt=""></div>
+      <div class="card"><span class="date-label">May 1, 2025</span><img src="https://iili.io/FDOIcba.png" alt=""></div>
+    </div>
+    <div class="actions">
+      <div class="view-more-btn" id="viewMoreBtn">VIEW MORE +</div>
+    </div>
+  </section>
+  <!-- FULLSCREEN LIGHTBOX -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <!-- CLOSE BUTTON (acum identic cu toolbar) -->
+  <button class="close-btn" id="closeBtn" title="Close">
+    <img src="https://iili.io/KZPRpuj.png" alt="Close">
+  </button>
+  <!-- TOOLBAR (Download + Zoom) -->
+  <div class="lightbox-toolbar" id="lightboxToolbar" aria-hidden="false">
+    <div class="toolbar-inner">
+      <button class="toolbar-btn" id="downloadBtn" title="Download (save)">
+        <img src="https://iili.io/KZr0ZTG.png" alt="Download">
+      </button>
+      <button class="toolbar-btn" id="zoomBtn" title="Zoom in/out">
+        <img src="https://iili.io/KZg8Fe4.png" alt="Zoom">
+      </button>
+    </div>
+  </div>
+  <img class="arrow left-arrow" id="leftArrow" src="https://iili.io/KLlYJEP.png" alt="left">
+  <img id="lightboxImage" src="" alt="Lightbox image">
+  <img class="arrow right-arrow" id="rightArrow" src="https://iili.io/KLlYHCB.png" alt="right">
+</div>
+<!-- === COMMUNITY SECTION === -->
+<section class="community-section">
+  <div class="community-bg"></div>
+  <div class="community-fade-top"></div>
+  <div class="community-fade-bottom"></div>
+  <div class="community-content">
+    <div class="community-logo"><img src="https://iili.io/FbvAzdP.png" alt="Studio Logo"></div>
+    <h2 class="community-title">Stay Updated on the Early Development Stage!</h2>
+    <p class="community-text">Our Roblox car game is still in early development – and you can be part of the journey! Join us to see sneak peeks, vote on ideas, share feedback, and help shape the game before release. Become one of the first members of our Discord community and grow together with us from the start!</p>
+    <a href="https://discord.gg/xSTRtG5UQj" target="_blank" rel="noopener" class="community-btn">JOIN DISCORD</a>
+  </div>
+</section>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">Cameleon Games</div>
+  <div class="footer-center">
+    România
+  </div>
+  <div class="footer-right">
+    <div class="lang">
+      <button id="langBtn" aria-haspopup="true" aria-expanded="false">
+        <img src="https://iili.io/FmJ79t4.th.png" alt="Global" class="lang-icon">
+        <span id="langBtnText">English</span>
+        <img src="https://iili.io/KD2S8OJ.th.png" alt="arrow" class="lang-arrow">
+      </button>
+      <ul id="langMenu" class="lang-menu" role="menu">
+       <li class="lang-option" data-lang="de" role="menuitem">Deutsch</li>
+        <li class="lang-option" data-lang="en" role="menuitem" aria-selected="true">English</li>
+        <li class="lang-option" data-lang="es" role="menuitem">Español</li>
+        <li class="lang-option" data-lang="fr" role="menuitem">Français</li>
+        <li class="lang-option" data-lang="it" role="menuitem">Italiano</li>
+        <li class="lang-option" data-lang="pl" role="menuitem">Polski</li>
+        <li class="lang-option" data-lang="pt" role="menuitem">Português</li>
+        <li class="lang-option" data-lang="ro" role="menuitem">Română</li>
+        <li class="lang-option" data-lang="ru" role="menuitem">Русский</li>
+        <li class="lang-option" data-lang="zh" role="menuitem">中文</li>
+      </ul>
+    </div>
+    <div class="social-icons">
+      <a href="https://www.youtube.com/@games_test5500" target="_blank">
+        <img src="https://iili.io/FD6dmUN.webp" alt="YouTube">
+      </a>
+      <a href="https://discord.gg/xSTRtG5UQj" target="_blank">
+        <img src="https://iili.io/FDvVlee.webp" alt="Discord">
+      </a>
+    </div>
+    <div class="year">MMXXII</div>
+  </div>
+</footer>
+<!-- COPYRIGHT -->
+<div class="footer-copy">
+  © 2025 StreetX. All rights reserved.
+</div>
+<script>
+/* ================= TOPBAR SLIDE ================= */
+const slidesContainer = document.getElementById('slides');
+
+/* ================= LIGHTBOX (complet, cu toolbar funcțional) ================= */
+(function(){
+  const lightbox=document.getElementById('lightbox');
+  const lightboxImage=document.getElementById('lightboxImage');
+  const closeBtn=document.getElementById('closeBtn');
+  const leftArrow=document.getElementById('leftArrow');
+  const rightArrow=document.getElementById('rightArrow');
+  const toolbar = document.getElementById('lightboxToolbar');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const zoomBtn = document.getElementById('zoomBtn');
+
+  const galleryGrid=document.getElementById('galleryGrid');
+  const cards = Array.from(galleryGrid.querySelectorAll('.card'));
+  let currentIndex = 0;
+
+  /* open/close */
+  function openLightbox(index){
+    currentIndex = index;
+    lightboxImage.src = cards[index].querySelector('img').src;
+    lightbox.classList.add('show');
+    lightbox.setAttribute('aria-hidden','false');
+    resetZoomSmooth(); // asigurăm că imaginea începe normal la deschidere
+  }
+  function closeLightbox(){
+    lightbox.classList.add('fade-out');
+    setTimeout(()=>{
+      lightbox.classList.remove('show','fade-out');
+      lightbox.setAttribute('aria-hidden','true');
+      /* optional: clear src to help memory */
+      // lightboxImage.src = '';
+    },400);
+  }
+  /* next/prev cu tranziție și reset zoom */
+  function showNext() {
+    // animație simplă fade
+    lightboxImage.style.opacity = 0;
+    setTimeout(() => {
+      currentIndex = (currentIndex + 1) % cards.length;
+      lightboxImage.src = cards[currentIndex].querySelector('img').src;
+      resetZoomSmooth();
+      lightboxImage.style.opacity = 1;
+    }, 180);
+  }
+  function showPrev() {
+    lightboxImage.style.opacity = 0;
+    setTimeout(() => {
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+      lightboxImage.src = cards[currentIndex].querySelector('img').src;
+      resetZoomSmooth();
+      lightboxImage.style.opacity = 1;
+    }, 180);
+  }
+  /* click pe thumb deschide */
+  cards.forEach((card,i)=>card.querySelector('img').addEventListener('click', (ev)=>{
+    ev.preventDefault();
+    openLightbox(i);
+  }));
+  /* butoane close/arrow */
+  closeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); closeLightbox(); });
+  leftArrow.addEventListener('click', (e)=>{ e.stopPropagation(); showPrev(); });
+  rightArrow.addEventListener('click', (e)=>{ e.stopPropagation(); showNext(); });
+  /* key controls */
+  document.addEventListener('keydown', (e)=>{
+    if(!lightbox.classList.contains('show')) return;
+    if(e.key === 'Escape') { closeLightbox(); }
+    if(e.key === 'ArrowLeft') { showPrev(); }
+    if(e.key === 'ArrowRight') { showNext(); }
+  });
+
+  /* click pe fundal -> inchide DOAR daca target === lightbox (nu inchide la click pe toolbar sau image) */
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  /* ================= TOOLBAR FUNCȚIONAL ================= */
+  // Previmizi starea zoom
+  let zoomLevel = 1;
+  let isZoomed = false;
+  let currentX = 0, currentY = 0;
+  let startX = 0, startY = 0;
+  let isDragging = false;
+
+  // actualizeaza icon zoom
+  function updateZoomIcon(){
+    const img = zoomBtn.querySelector('img');
+    if(isZoomed) img.src = 'https://iili.io/KZg837f.png'; // zoom out icon
+    else img.src = 'https://iili.io/KZg8Fe4.png'; // zoom in icon
+  }
+
+  // Download (folosim link direct; poate fi CORS-limited)
+  downloadBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    // încercăm metoda simplă:
+    const a = document.createElement('a');
+    a.href = lightboxImage.src;
+    // sugestie nume (poți schimba)
+    a.download = 'streetx-image.jpg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+
+  // Toggle zoom
+  zoomBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    isZoomed = !isZoomed;
+    zoomLevel = isZoomed ? 2 : 1;
+    // resetează offset când intri/ieși din zoom
+    currentX = 0; currentY = 0;
+    lightboxImage.style.transition = 'transform 0.35s ease';
+    lightboxImage.style.transform = `scale(${zoomLevel}) translate(${currentX}px, ${currentY}px)`;
+    updateZoomIcon();
+  });
+
+  // Drag behaviour (mouse)
+  lightboxImage.addEventListener('mousedown', (e)=>{
+    if(!isZoomed) return;
+    e.preventDefault();
+    isDragging = true;
+    startX = e.clientX - currentX;
+    startY = e.clientY - currentY;
+    lightboxImage.style.transition = 'none';
+  });
+  window.addEventListener('mousemove', (e)=>{
+    if(!isDragging) return;
+    isDragging = true;
+    currentX = e.clientX - startX;
+    currentY = e.clientY - startY;
+    // limităm transformările astfel încât să nu scapi poza din interior (constrângere aproximativă)
+    // Observație: Calculul exact dependente de dimensiunea imaginii vizibile; păstrăm simple limitări (îmbunătățim la nevoie).
+    lightboxImage.style.transform = `scale(${zoomLevel}) translate(${currentX}px, ${currentY}px)`;
+  });
+  window.addEventListener('mouseup', ()=>{
+    if(isDragging){
+      isDragging = false;
+      lightboxImage.style.transition = 'transform 0.28s ease';
+    }
+  });
+
+  // Prevenim închiderea când dai click pe toolbar (sau copii ai acestui element)
+  toolbar.addEventListener('click', (e)=> e.stopPropagation());
+  toolbar.addEventListener('mousedown', (e)=> e.stopPropagation());
+
+  // control vizibilitate toolbar când mouse e în apropiere
+  let toolbarVisible = false;
+  lightbox.addEventListener('mousemove', (e)=>{
+    const rect = toolbar.getBoundingClientRect();
+    const inZone =
+      e.clientX >= rect.left - 48 &&
+      e.clientX <= rect.right + 48 &&
+      e.clientY >= rect.top - 48 &&
+      e.clientY <= rect.bottom + 48;
+    if(inZone && !toolbarVisible){ toolbar.classList.add('visible'); toolbarVisible = true; }
+    else if(!inZone && toolbarVisible){ toolbar.classList.remove('visible'); toolbarVisible = false; }
+  });
+
+  // Reset zoom cu animație când schimbăm imaginea
+  function resetZoomSmooth(){
+    isZoomed = false;
+    zoomLevel = 1;
+    currentX = 0;
+    currentY = 0;
+    lightboxImage.style.transition = 'transform 0.32s ease';
+    lightboxImage.style.transform = 'scale(1) translate(0px, 0px)';
+    updateZoomIcon();
+  }
+})();
+  /* ===== Topbar scroll logic (profesional, fără height fix) ===== */
+const topbar = document.getElementById('topbar');
+let lastScrollY = window.scrollY;
+let state = 0; // 0 = initial, 1 = with-bg, 2 = hidden
+
+function setTopbarState(newState) {
+  if (state === newState) return;
+  topbar.classList.remove('initial', 'with-bg', 'hidden');
+  if (newState === 0) topbar.classList.add('initial');
+  if (newState === 1) topbar.classList.add('with-bg');
+  if (newState === 2) topbar.classList.add('hidden');
+  state = newState;
+}
+
+setTopbarState(0);
+
+window.addEventListener('scroll', () => {
+  const currentY = window.scrollY;
+  const direction = currentY > lastScrollY ? 'down' : 'up';
+
+  if (currentY <= 5) {
+    setTopbarState(0);
+  } 
+  else if (direction === 'down') {
+    if (state === 0) setTopbarState(1);
+    else if (state === 1 && currentY > 100) setTopbarState(2);
+  } 
+  else if (direction === 'up') {
+    if (state === 2) setTopbarState(1);
+  }
+
+  lastScrollY = currentY;
+});  
+</script>
+<script>
+const bg=document.querySelector(".community-bg"),sec=document.querySelector(".community-section"),offset=200;
+window.addEventListener("scroll",()=>{
+  const y=window.scrollY||window.pageYOffset,top=sec.offsetTop-offset,h=sec.offsetHeight,wh=window.innerHeight;
+  if(y+wh>top&&y<top+h+wh){
+    const p=Math.min(Math.max((y+wh-top)/(h+wh),0),1);
+    bg.style.backgroundPosition=`center ${50+p*25}%`;
+  }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  /* ============ SISTEM MULTILANG (ENG / ALL) ============ */
+  const translations = {
+    de:{navBtn:"HEIM",newDevelopment:"NEUE ENTWICKLUNG",oldest:"ÄLTESTE",latest:"NEUESTE",viewMore:"MEHR ANZEIGEN +",viewLess:"WENIGER ANZEIGEN –",communityTitle:"Bleib über die Entwicklung auf dem Laufenden!",communityText:"Unser Roblox-Autospiel befindet sich noch in der frühen Entwicklungsphase – und du kannst dabei sein! Schau dir exklusive Einblicke an, stimme über Ideen ab, gib uns Feedback und hilf mit, das Spiel vor dem Release zu gestalten. Werde eines der ersten Mitglieder unserer Discord-Community und wachse von Anfang an mit uns!",joinDiscord:"DISCORD BEITRETEN",country:"Rumänien",rights:"© 2025 StreetX. Alle Rechte vorbehalten.",playOnRoblox:"AUF ROBLOX SPIELEN"},
+    en:{navBtn:"HOME",newDevelopment:"NEW DEVELOPMENT",oldest:"OLDEST",latest:"LATEST",viewMore:"VIEW MORE +",viewLess:"VIEW LESS –",communityTitle:"Stay Updated on the Early Development Stage!",communityText:"Our Roblox car game is still in early development – and you can be part of the journey! Join us to see sneak peeks, vote on ideas, share feedback, and help shape the game before release. Become one of the first members of our Discord community and grow together with us from the start!",joinDiscord:"JOIN DISCORD",country:"Romania",rights:"© 2025 StreetX. All rights reserved.",playOnRoblox:"PLAY ON ROBLOX"},
+    es:{navBtn:"HOGAR",newDevelopment:"NUEVO DESARROLLO",oldest:"MÁS ANTIGUO",latest:"MÁS NUEVO",viewMore:"VER MÁS +",viewLess:"VER MENOS –",communityTitle:"¡Mantente al tanto del desarrollo!",communityText:"Nuestro juego de coches en Roblox aún está en desarrollo, ¡y puedes formar parte de la aventura! Únete para ver avances, votar ideas, compartir tu opinión y ayudarnos a mejorar el juego antes de su lanzamiento. ¡Conviértete en uno de los primeros miembros de nuestra comunidad de Discord y crece con nosotros desde el principio!",joinDiscord:"UNIRSE A DISCORD",country:"Rumanía",rights:"© 2025 StreetX. Todos los derechos reservados.",playOnRoblox:"JUGAR EN ROBLOX"},
+    fr:{navBtn:"MAISON",newDevelopment:"NOUVEAU DÉVELOPPEMENT",oldest:"LE PLUS ANCIEN",latest:"LE PLUS RÉCENT",viewMore:"VOIR PLUS +",viewLess:"VOIR MOINS –",communityTitle:"Restez informé du développement!",communityText:"Notre jeu de voitures sur Roblox est encore en développement, et vous pouvez participer à l'aventure ! Rejoignez-nous pour découvrir des aperçus exclusifs, voter pour vos idées préférées, partager vos commentaires et contribuer à façonner le jeu avant sa sortie. Devenez parmi les premiers membres de notre communauté Discord et accompagnez-nous dès le début !",joinDiscord:"REJOINDRE DISCORD",country:"Roumanie",rights:"© 2025 StreetX. Tous droits réservés.",playOnRoblox:"JOUER SUR ROBLOX"},
+    it:{navBtn:"CASA",newDevelopment:"NUOVO SVILUPPO",oldest:"PIÙ VECCHIO",latest:"PIÙ RECENTE",viewMore:"VEDI DI PIÙ +",viewLess:"VEDI DI MENO –",communityTitle:"Rimani aggiornato sullo sviluppo!",communityText:"Il nostro gioco di auto Roblox è ancora in fase di sviluppo iniziale e tu puoi farne parte! Unisciti a noi per vedere anteprime, votare idee, condividere feedback e contribuire a dare forma al gioco prima del lancio. Diventa uno dei primi membri della nostra community Discord e cresci insieme a noi fin dall'inizio!",joinDiscord:"UNISCITI A DISCORD",country:"Romania",rights:"© 2025 StreetX. Tutti i diritti riservati.",playOnRoblox:"GIOCA SU ROBLOX"},
+    pl:{navBtn:"DOM",newDevelopment:"NOWY ROZWÓJ",oldest:"NAJSTARSZE",latest:"NAJNOWSZE",viewMore:"POKAŻ WIĘCEJ +",viewLess:"POKAŻ MNIEJ –",communityTitle:"Bądź na bieżąco z rozwojem!",communityText:"Nasza gra samochodowa Roblox jest wciąż na wczesnym etapie rozwoju – i Ty możesz być częścią tej podróży! Dołącz do nas, aby zobaczyć zajawki, zagłosować na pomysły, podzielić się opiniami i pomóc ukształtować grę przed premierą. Zostań jednym z pierwszych członków naszej społeczności na Discordzie i rozwijaj się razem z nami od samego początku!",joinDiscord:"DOŁĄCZ DO DISCORDA",country:"Rumania",rights:"© 2025 StreetX. Wszelkie prawa zastrzeżone.",playOnRoblox:"GRAJ NA ROBLOX"},
+    pt:{navBtn:"LAR",newDevelopment:"NOVO DESENVOLVIMENTO",oldest:"MAIS ANTIGO",latest:"MAIS RECENTE",viewMore:"VER MAIS +",viewLess:"VER MENOS –",communityTitle:"Fique atualizado sobre o desenvolvimento!",communityText:"Nosso jogo de carros no Roblox ainda está em fase inicial de desenvolvimento — e você pode fazer parte dessa jornada! Junte-se a nós para ver prévias, votar em ideias, compartilhar feedback e ajudar a moldar o jogo antes do lançamento. Torne-se um dos primeiros membros da nossa comunidade no Discord e cresça conosco desde o início!",joinDiscord:"ENTRAR NO DISCORD",country:"Romênia",rights:"© 2025 StreetX. Todos os direitos reservados.",playOnRoblox:"JOGAR NO ROBLOX"},
+    ro:{navBtn:"ACASĂ",newDevelopment:"NOUTĂȚI",oldest:"CELE MAI VECHI",latest:"CELE MAI NOI",viewMore:"VEZI MAI MULT +",viewLess:"VEZI MAI PUȚIN –",communityTitle:"Rămâi la curent cu stadiul de dezvoltare!",communityText:"Jocul nostru cu mașini Roblox este încă în stadiu incipient de dezvoltare – și poți face parte din această călătorie! Alătură-te nouă pentru a vedea avanpremiere, a vota idei, a împărtăși feedback și a ajuta la modelarea jocului înainte de lansare. Devino unul dintre primii membri ai comunității noastre Discord și crește împreună cu noi de la început!",joinDiscord:"ALĂTURĂ-TE PE DISCORD",country:"România",rights:"© 2025 StreetX. Toate drepturile rezervate.",playOnRoblox:"JOACĂ PE ROBLOX"},
+    ru:{navBtn:"ДОМ",newDevelopment:"НОВАЯ РАЗРАБОТКА",oldest:"СТАРЕЙШИЙ",latest:"НОВЕЙШИЙ",viewMore:"ПОКАЗАТЬ БОЛЬШЕ +",viewLess:"ПОКАЗАТЬ МЕНЬШЕ –",communityTitle:"Следите за развитием проекта!",communityText:"Наша игра для Roblox с автомобилями всё ещё находится на ранней стадии разработки, и вы можете присоединиться к нам! Присоединяйтесь к нам, чтобы увидеть первые анонсы, проголосовать за идеи, поделиться отзывами и помочь нам доработать игру до релиза. Станьте одним из первых участников нашего сообщества в Discord и развивайтесь вместе с нами с самого начала!",joinDiscord:"ПРИСОЕДИНИТЬСЯ К DISCORD",country:"Румыния",rights:"© 2025 StreetX. Все права защищены.",playOnRoblox:"ИГРАТЬ НА ROBLOX"},
+    zh:{navBtn:"家",newDevelopment:"新開發",oldest:"最舊",latest:"最新",viewMore:"查看更多 +",viewLess:"顯示較少 –",communityTitle:"隨時了解開發進度！",communityText:"我們的 Roblox 賽車遊戲目前仍處於早期開發階段——而你可以參與其中！加入我們，搶先預覽遊戲內容，參與投票，分享回饋，並在遊戲正式發布前幫助我們完善遊戲。成為我們 Discord 社群的首批成員，與我們一起從零開始成長！",joinDiscord:"加入 DISCORD",country:"罗马尼亚",rights:"© 2025 StreetX. 保留所有权利。",playOnRoblox:"在 ROBLOX 上遊玩"}
+  };
+
+  const els = {
+    navBtn: document.querySelector(".btn-nav"),
+    newDevelopment: document.querySelector(".gallery-title"),
+    sortToggle: document.querySelector("#sortToggle span"),
+    viewMoreBtn: document.querySelector("#viewMoreBtn"),
+    communityTitle: document.querySelector(".community-title"),
+    communityText: document.querySelector(".community-text"),
+    joinDiscord: document.querySelector(".community-btn"),
+    country: document.querySelector(".footer-center"),
+    rights: document.querySelector(".footer-copy"),
+    playOnRoblox: document.querySelector(".nav-right .btn-play span"),
+  };
+
+  const langBtn = document.getElementById("langBtn");
+  const langMenu = document.getElementById("langMenu");
+  const langBtnText = document.getElementById("langBtnText");
+
+  let currentLang = localStorage.getItem("lang") || "en";
+  applyLanguage(currentLang);
+
+  function applyLanguage(lang) {
+    currentLang = lang;
+    const t = translations[lang];
+    if (!t) return;
+
+    localStorage.setItem("lang", lang);
+
+    if (els.navBtn) els.navBtn.textContent = t.navBtn;
+    if (els.newDevelopment) els.newDevelopment.textContent = t.newDevelopment;
+    if (els.communityTitle) els.communityTitle.textContent = t.communityTitle;
+    if (els.communityText) els.communityText.textContent = t.communityText;
+    if (els.joinDiscord) els.joinDiscord.textContent = t.joinDiscord;
+    if (els.country) els.country.textContent = t.country;
+    if (els.rights) els.rights.textContent = t.rights;
+    if (els.playOnRoblox) els.playOnRoblox.textContent = t.playOnRoblox;
+
+    if (els.sortToggle) {
+      const state = els.sortToggle.closest("#sortToggle")?.dataset.state || "latest";
+      els.sortToggle.textContent = state === "latest" ? t.latest : t.oldest;
+    }
+
+    if (els.viewMoreBtn) {
+      const state = els.viewMoreBtn.dataset.state || "more";
+      els.viewMoreBtn.textContent = state === "more" ? t.viewMore : t.viewLess;
+    }
+
+    if (langBtnText) langBtnText.textContent = ({de:"Deutsch",en:"English",es:"Español",fr:"Français",it:"Italiano",pl:"Polski",pt:"Português",ro:"Română",ru:"Русский",zh:"中文"}[lang]) || "English";
+    document.querySelectorAll(".lang-option").forEach((opt) => {
+      opt.setAttribute("aria-selected", opt.dataset.lang === lang);
+    });
+
+    // Anunță restul scripturilor că limba s-a schimbat
+    document.dispatchEvent(new Event("languageChanged"));
+  }
+
+  if (langBtn) {
+    langBtn.addEventListener("click", () => {
+      const expanded = langBtn.getAttribute("aria-expanded") === "true";
+      langBtn.setAttribute("aria-expanded", !expanded);
+      langMenu.classList.toggle("show");
+    });
+  }
+
+  document.addEventListener("click", (e) => {
+    if (!langBtn.contains(e.target) && !langMenu.contains(e.target)) {
+      langMenu.classList.remove("show");
+      langBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  document.querySelectorAll(".lang-option").forEach((opt) => {
+    opt.addEventListener("click", () => {
+      applyLanguage(opt.dataset.lang);
+      langMenu.classList.remove("show");
+      langBtn.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  /* ================= GALLERY + COLLAPSE/EXPAND ================= */
+  const galleryGrid = document.getElementById("galleryGrid");
+  const viewMoreBtn = document.getElementById("viewMoreBtn");
+  const sortToggle = document.getElementById("sortToggle");
+  if (!galleryGrid || !viewMoreBtn || !sortToggle) return;
+
+  const cards = Array.from(galleryGrid.children);
+  const columns = 3, collapsedRows = 1, animationDuration = 600;
+  let expanded = false, isAnimating = false;
+
+  function t(key) {
+    return translations[currentLang]?.[key] || key;
+  }
+
+  function getCollapsedHeight() {
+    if (!cards[0]) return 0;
+    const cardHeight = cards[0].getBoundingClientRect().height;
+    const gap = parseFloat(getComputedStyle(galleryGrid).gap) || 0;
+    return cardHeight * collapsedRows + gap * (collapsedRows - 1);
+  }
+
+  function animateMaxHeight(el, from, to, duration = animationDuration) {
+    let start = null;
+    isAnimating = true;
+    el.style.overflow = "hidden";
+    el.style.maxHeight = from + "px";
+    return new Promise((resolve) => {
+      function step(ts) {
+        if (!start) start = ts;
+        const tEase = Math.min(1, (ts - start) / duration);
+        const eased =
+          tEase < 0.5
+            ? 4 * tEase * tEase * tEase
+            : 1 - Math.pow(-2 * tEase + 2, 3) / 2;
+        el.style.maxHeight = from + (to - from) * eased + "px";
+        if (tEase < 1) requestAnimationFrame(step);
+        else {
+          el.style.maxHeight = to + "px";
+          setTimeout(() => {
+            el.style.overflow = "";
+            isAnimating = false;
+            resolve();
+          }, 60);
+        }
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  function revealCardsStagger(showAll) {
+    cards.forEach((card, idx) => {
+      if (idx < columns * collapsedRows)
+        setTimeout(() => card.classList.add("visible"), idx * 40);
+      else if (showAll)
+        setTimeout(
+          () => card.classList.add("visible"),
+          (idx - columns * collapsedRows) * 60 + 120
+        );
+      else setTimeout(() => card.classList.remove("visible"), 0);
+    });
+  }
+
+  cards.forEach((c) => c.classList.remove("visible"));
+  const collapsedH = Math.ceil(getCollapsedHeight());
+  galleryGrid.style.maxHeight = collapsedH + "px";
+  for (let i = 0; i < columns * collapsedRows && i < cards.length; i++)
+    cards[i].classList.add("visible");
+
+  viewMoreBtn.dataset.state = "more";
+  viewMoreBtn.textContent = t("viewMore");
+
+  viewMoreBtn.addEventListener("click", async () => {
+    if (isAnimating) return;
+    const fullH = galleryGrid.scrollHeight;
+    const curMax =
+      parseFloat(getComputedStyle(galleryGrid).maxHeight) || collapsedH;
+
+    if (!expanded) {
+      await animateMaxHeight(galleryGrid, curMax, fullH);
+      revealCardsStagger(true);
+      viewMoreBtn.dataset.state = "less";
+      viewMoreBtn.textContent = t("viewLess");
+      expanded = true;
+    } else {
+      revealCardsStagger(false);
+      await animateMaxHeight(
+        galleryGrid,
+        galleryGrid.scrollHeight,
+        collapsedH
+      );
+      const galleryTop =
+        document.querySelector(".gallery-section").getBoundingClientRect().top +
+        window.scrollY;
+      window.scrollTo({
+        top: Math.max(0, galleryTop - 100),
+        behavior: "smooth",
+      });
+      viewMoreBtn.dataset.state = "more";
+      viewMoreBtn.textContent = t("viewMore");
+      expanded = false;
+    }
+  });
+
+  const sortSpan = sortToggle.querySelector("span") || sortToggle;
+  sortToggle.dataset.state = "latest";
+  sortSpan.textContent = t("latest");
+
+  sortToggle.addEventListener("click", () => {
+    if (isAnimating) return;
+
+    const currentState = sortToggle.dataset.state;
+    const newState = currentState === "latest" ? "oldest" : "latest";
+    sortToggle.dataset.state = newState;
+    sortSpan.textContent = t(newState);
+
+    cards.reverse();
+    galleryGrid.innerHTML = "";
+    cards.forEach((c) => galleryGrid.appendChild(c));
+    cards.forEach((c) => c.classList.remove("visible"));
+
+    if (!expanded) {
+      const newCollapsedH = Math.ceil(getCollapsedHeight());
+      galleryGrid.style.maxHeight = newCollapsedH + "px";
+      for (let i = 0; i < columns * collapsedRows && i < cards.length; i++)
+        setTimeout(() => cards[i].classList.add("visible"), i * 40);
+    } else {
+      const fullH = galleryGrid.scrollHeight;
+      galleryGrid.style.maxHeight = fullH + "px";
+      cards.forEach((c, i) =>
+        setTimeout(() => c.classList.add("visible"), i * 40)
+      );
+    }
+  });
+
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const newCollapsed = Math.ceil(getCollapsedHeight());
+      if (!expanded) galleryGrid.style.maxHeight = newCollapsed + "px";
+    }, 120);
+  });
+
+  document.addEventListener("languageChanged", () => {
+    const stateSort = sortToggle.dataset.state;
+    sortSpan.textContent = t(stateSort);
+    const stateView = viewMoreBtn.dataset.state;
+    viewMoreBtn.textContent = t(stateView === "more" ? "viewMore" : "viewLess");
+  });
+});
+  
+const viewMoreBtn = document.getElementById('viewMoreBtn');
+const gallerySection = document.querySelector('.gallery-section');
+
+viewMoreBtn.addEventListener('click', () => {
+  const targetPosition = gallerySection.offsetTop + 150;
+
+  window.scrollTo({
+    top: targetPosition,
+    behavior: 'smooth'
+  });
+});
+</script>
+<script>
+window.addEventListener("load",()=>{const loader=document.getElementById("loader");setTimeout(()=>{loader.classList.add("hide");setTimeout(()=>{loader.remove();},1400);},3200);});
+</script>
+</body>
+</html>
