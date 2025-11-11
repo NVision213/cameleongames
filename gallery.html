@@ -12,34 +12,24 @@
   --accent: rgba(255,255,255,.95);
 }
 
-/* Scrollbar universal (merge și pe localhost) */
 html, body {
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: rgba(120,120,120,0.7) transparent; /* culoare gri închis + fundal invizibil */
+  overflow-y: scroll; /* menține scrollbarul mereu activ */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120,120,120,0.7) transparent;
 }
-
-/* Chrome, Edge, Safari */
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+html::-webkit-scrollbar {
   width: 10px;
 }
-
-html::-webkit-scrollbar-track,
-body::-webkit-scrollbar-track {
-  background: transparent; /* fundal invizibil */
-}
-
-html::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-thumb {
-  background-color: rgba(120,120,120,0.7); /* gri închis */
+html::-webkit-scrollbar-thumb {
+  background-color: rgba(120,120,120,0.7);
   border-radius: 10px;
-  border: 2px solid transparent; /* opțional – face marginile mai fine */
-  background-clip: content-box;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(160,160,160,0.8);
 }
 
-html::-webkit-scrollbar-thumb:hover,
-body::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(160,160,160,0.8); /* puțin mai deschis la hover */
+.refresh-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(120,120,120,0.7) !important;
 }
 
 /* Body */
@@ -208,7 +198,7 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 <header class="topbar" id="topbar">
   <img class="logo" src="https://iili.io/KshRKZB.png" alt="Studio Logo">
   <div class="nav-center">
-    <a class="btn-nav" href="index.html">GALLERY</a>
+    <a class="btn-nav" href="./">GALLERY</a>
   </div>
   <div class="nav-right">
     <a class="btn-play" href="https://www.roblox.com/games/118453831024315/THE-CANYON-STREETX" target="_blank">
@@ -548,6 +538,17 @@ window.addEventListener("scroll",()=>{
   }
 });
 </script>
+    <script>
+// 🔧 Scrollbar fix helper
+function refreshScrollbar() {
+  document.documentElement.classList.add("refresh-scrollbar");
+  setTimeout(() => {
+    document.documentElement.classList.remove("refresh-scrollbar");
+    document.documentElement.style.scrollbarColor = "rgba(120,120,120,0.7) transparent";
+  }, 150);
+}
+</script>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   /* ============ SISTEM MULTILANG (ENG / ALL) ============ */
@@ -642,6 +643,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  
   /* ================= GALLERY + COLLAPSE/EXPAND ================= */
   const galleryGrid = document.getElementById("galleryGrid");
   const viewMoreBtn = document.getElementById("viewMoreBtn");
@@ -678,15 +680,18 @@ document.addEventListener("DOMContentLoaded", () => {
             : 1 - Math.pow(-2 * tEase + 2, 3) / 2;
         el.style.maxHeight = from + (to - from) * eased + "px";
         if (tEase < 1) requestAnimationFrame(step);
-        else {
-          el.style.maxHeight = to + "px";
-          setTimeout(() => {
-            el.style.overflow = "";
-            isAnimating = false;
-            resolve();
-          }, 60);
-        }
+else {
+  el.style.maxHeight = to + "px";
+  setTimeout(() => {
+    el.style.overflow = "";
+    isAnimating = false;
+    resolve();
+    refreshScrollbar(); // 👈 adaugă asta exact aici
+  }, 60);
+}
+
       }
+      
       requestAnimationFrame(step);
     });
   }
