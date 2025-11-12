@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>STREETX — Site Oficial (with improved Lightbox toolbar)</title>
+<title>Cameleon Games</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ================= GLOBAL ================= */
@@ -70,7 +70,6 @@ body {
 .btn-play:hover,.btn-check:hover{background:rgba(255,255,255,.2);box-shadow:0 0 12px rgba(255,255,255,.45),inset 0 0 16px rgba(255,255,255,.5);border-color:rgba(255,255,255,.9);}
 .btn-nav{display:inline-flex;align-items:center;justify-content:center;padding:15px 36px;border-radius:999px;border:none;background:transparent;color:rgba(255,255,255,.75);font-weight:700;text-decoration:none;font-size:15px;letter-spacing:.4px;white-space:nowrap;transition:all .25s ease;}
 .btn-nav:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);backdrop-filter:blur(10px)saturate(140%);box-shadow:0 8px 24px rgba(0,0,0,.6),inset 0 0 14px rgba(255,255,255,.35);}
-
 /* === HERO === */
 .hero{position:relative;height:100vh;overflow:hidden;}
 .slide{position:absolute;inset:0;opacity:0;transition:transform 1.5s cubic-bezier(.65,0,.35,1),opacity 1.2s ease-out;background-size:cover;background-position:center;background-repeat:no-repeat;transform:translateX(100%);}
@@ -87,7 +86,6 @@ body {
 .platform-logos{display:flex;align-items:center;gap:30px;flex-wrap:nowrap}
 .platform-logos .icon svg{height:30px;width:auto;opacity:1}
 @media(max-width:768px){.platform-logos .icon svg{height:34px}}
-
 /* CONTROLS */
 .control { width: 14px; height: 14px; border-radius: 999px; background: rgba(255,255,255,0.3); cursor: pointer; position: relative; overflow: hidden; transition: all .25s ease, box-shadow .25s ease; }
 .control:not(.active):hover { background: rgba(255,255,255,0.5); box-shadow: 0 0 8px 3px rgba(255,255,255,0.5); }
@@ -95,7 +93,6 @@ body {
 @keyframes clickStroke { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.8); } 40% { box-shadow: 0 0 8px 3px rgba(255,255,255,0.8); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 .control.clicked:not(.active) { animation: clickStroke 0.45s ease-out; }
 .control .progress { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7)); height: 100%; border-radius: inherit; transition: width .1s linear; }
-
 /* GALLERY */
 :root { --gallery-gap:26px; --gallery-columns:3; }
 .gallery-section{padding:180px 6vw 100px;background:#000;}
@@ -128,7 +125,6 @@ body {
 .community-text{font-size:18px;line-height:1.6;max-width:720px;margin:0 auto 36px;color:#ddd}
 .community-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 32px;border-radius:999px;border:1.5px solid rgba(255,255,255,.8);background:transparent;color:#f8f8ff;font-weight:700;font-size:15px;letter-spacing:.4px;text-decoration:none;white-space:nowrap;transition:all .25s ease;box-shadow:0 0 8px rgba(255,255,255,.3),inset 0 0 8px rgba(255,255,255,.08)}
 .community-btn:hover{background:rgba(255,255,255,.2);box-shadow:0 0 12px rgba(255,255,255,.45),inset 0 0 16px rgba(255,255,255,.5);border-color:rgba(255,255,255,.95)}
-
 /* === FOOTER === */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 footer,.footer-copy{background:#000;font-family:'Poppins',sans-serif;color:#44413a}
@@ -141,7 +137,6 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .social-icons img:hover{filter:grayscale(0) brightness(1)}
 .year{margin-top:6px}
 .footer-copy{text-align:center;margin:15px 0 0;padding:15px 0 25px;font-weight:600;font-size:12px;letter-spacing:1px;text-transform:uppercase}
-
 /* === LIGHTBOX === */
 .lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);justify-content:center;align-items:center;z-index:9999;overflow:hidden;opacity:0;transition:opacity .4s ease;}
 .lightbox.show{display:flex;opacity:1;}
@@ -179,14 +174,13 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .toolbar-btn:hover{background:rgba(255,255,255,.13);box-shadow:inset 0 0 16px rgba(255,255,255,.45);transform:translateY(-1px);}
 .toolbar-btn:active img{transform:scale(.97);}
 @media(max-width:720px){.toolbar-inner{gap:8px;padding:6px 8px}.toolbar-btn{width:36px;height:36px}.close-btn{right:18px}.lightbox-toolbar{right:70px;top:16px}}
-
-/* ========== LANG SELECTOR (TEXT MAI APROAPE DE GLOB) ========== */
+/* ========== LANG SELECTOR ========== */
 .lang{position:relative;top:-20px;margin-left:-80px;}
 #langBtn{display:flex;align-items:center;gap:14px;background:none;border:none;cursor:pointer;font:600 13.5px 'Poppins',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#77746b;transition:color .2s;}
 #langBtn:hover{color:#999688;}
-.lang-icon{width:22px;height:22px;filter:grayscale(100%) brightness(.8);margin-right:-6px;} /* text mai aproape de glob */
-#langBtnText{color:#d2d2d2;} /* gri deschis spre alb */
-.lang-arrow{width:18px;height:18px;transition:transform .25s ease;filter:brightness(.8);margin-left:10px;} /* mai mult spațiu între text și săgeată */
+.lang-icon{width:22px;height:22px;filter:grayscale(100%) brightness(.8);margin-right:-6px;}
+#langBtnText{color:#d2d2d2;}
+.lang-arrow{width:18px;height:18px;transition:transform .25s ease;filter:brightness(.8);margin-left:10px;}
 #langBtn[aria-expanded="true"] .lang-arrow{transform:rotate(180deg);}
 .lang-menu{display:none;position:absolute;left:0;bottom:100%;margin-bottom:6px;background:#0d0d0d;border:1.5px solid rgba(180,180,180,.25);border-radius:10px;min-width:150px;z-index:999;text-align:left;padding:4px 0;box-shadow:0 0 10px rgba(255,255,255,.08),0 0 6px rgba(160,160,160,.1);max-height:115px;overflow-y:auto;scrollbar-width:none;}
 .lang-menu::-webkit-scrollbar{display:none;}
@@ -196,30 +190,12 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .lang-option:hover{background:#1c1c1c;color:#fff;}
 .lang-option:not(:last-child){border-bottom:1px solid rgba(255,255,255,.07);}
 
-#loader {
-  position:fixed;inset:0;display:flex;justify-content:center;align-items:center;
-  background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;
-}
+#loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;}
 #loader.hide{opacity:0;pointer-events:none;}
-.shine-mask {
-  position:relative;width:30vw;aspect-ratio:2.5/1;
-  background:rgba(120,120,120,.25);
-  mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;
-  -webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;
-  overflow:hidden;
-}
-.shine-mask::before {
-  content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;
-  background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);
-  transform:rotate(50deg);
-  animation:shine 4.5s cubic-bezier(.30,0,.15,1) infinite;
-}
-@keyframes shine {
-  0%{left:-80%;}
-  100%{left:100%;}
-}
+.shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
+.shine-mask::before{content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 4.5s cubic-bezier(.30,0,.15,1) infinite;}
+@keyframes shine{0%{left:-80%;}100%{left:100%;}}
 
-  
 /* === VARIANTA MOBILĂ FINALĂ COMBINATĂ === */
 #loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;}
 #loader.hide{opacity:0;pointer-events:none;}
@@ -266,14 +242,12 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .shine-mask{width:50vw;}
 .nav-btn,.btn-nav{transform:translateX(-20%);}
 }
-
 </style>
 </head>
 <body>
 <div id="loader">
   <div class="shine-mask cameleon"></div>
 </div>
-
 <header class="topbar" id="topbar">
   <img class="logo" src="https://iili.io/KshRKZB.png" alt="Studio Logo">
   <div class="nav-center">
@@ -316,7 +290,6 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
       <a id="sortToggle" class="btn-play sort-toggle"><span>OLDEST</span></a>
     </div>
     <div class="gallery-grid" id="galleryGrid">
-      <!-- imaginile tale (am păstrat aceleași linkuri) -->
       <div class="card"><span class="date-label">Nov 1, 2025</span><img src="https://iili.io/KLVSFDX.png" alt=""></div>
       <div class="card"><span class="date-label">Nov 1, 2025</span><img src="https://iili.io/KLVS3Nt.png" alt=""></div>
       <div class="card"><span class="date-label">Nov 1, 2025</span><img src="https://iili.io/KLVS2RI.png" alt=""></div>
@@ -362,7 +335,6 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
   <img id="lightboxImage" src="" alt="Lightbox image">
   <img class="arrow right-arrow" id="rightArrow" src="https://iili.io/KLlYHCB.png" alt="right">
 </div>
-<!-- === COMMUNITY SECTION === -->
 <section class="community-section">
   <div class="community-bg"></div>
   <div class="community-fade-top"></div>
@@ -374,7 +346,6 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
     <a href="https://discord.gg/xSTRtG5UQj" target="_blank" rel="noopener" class="community-btn">JOIN DISCORD</a>
   </div>
 </section>
-<!-- FOOTER -->
 <footer>
   <div class="footer-left">Cameleon Games</div>
   <div class="footer-center">
@@ -411,12 +382,11 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
     <div class="year">MMXXII</div>
   </div>
 </footer>
-<!-- COPYRIGHT -->
 <div class="footer-copy">
   © 2025 StreetX. All rights reserved.
 </div>
 <script>
-/* ================= SLIDER (păstrez codul tău funcțional original) ================= */
+/* ================= SLIDER ================= */
 const slideDuration = 5000;
 const slideImages = [
   'https://iili.io/KshVaPj.png',
@@ -439,7 +409,7 @@ slideImages.forEach((src,i)=>{
 });
 slideNodes=document.querySelectorAll('.slide');
 
-/* BUILD CONTROLS (same logic both PC & mobile) */
+/* BUILD CONTROLS  */
 slideImages.forEach((_,i)=>{
   const c=document.createElement('div');
   c.className='control'+(i===0?' active':'');
@@ -534,12 +504,12 @@ slidesContainer.addEventListener('touchend',e=>{
 
 function handleSwipe(){
   const diff=touchEndX - touchStartX;
-  if(Math.abs(diff) < 50 || isAnimating) return; // prag minim
+  if(Math.abs(diff) < 50 || isAnimating) return;
   if(diff > 0) prevSlide();
   else nextSlide();
 }
 
-/* ================= LIGHTBOX (complet, cu toolbar funcțional) ================= */
+/* ================= LIGHTBOX ================= */
 (function(){
   const lightbox=document.getElementById('lightbox');
   const lightboxImage=document.getElementById('lightboxImage');
@@ -613,7 +583,6 @@ function showPrev(){
     if(e.key === 'ArrowRight') { showNext(); }
   });
 
-  /* click pe fundal -> inchide DOAR daca target === lightbox (nu inchide la click pe toolbar sau image) */
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
@@ -628,8 +597,8 @@ function showPrev(){
   // actualizeaza icon zoom
   function updateZoomIcon(){
     const img = zoomBtn.querySelector('img');
-    if(isZoomed) img.src = 'https://iili.io/KZg837f.png'; // zoom out icon
-    else img.src = 'https://iili.io/KZg8Fe4.png'; // zoom in icon
+    if(isZoomed) img.src = 'https://iili.io/KZg837f.png';
+    else img.src = 'https://iili.io/KZg8Fe4.png';
   }
 
   // Download (folosim link direct; poate fi CORS-limited)
@@ -650,7 +619,6 @@ function showPrev(){
     e.stopPropagation();
     isZoomed = !isZoomed;
     zoomLevel = isZoomed ? 2 : 1;
-    // resetează offset când intri/ieși din zoom
     currentX = 0; currentY = 0;
     lightboxImage.style.transition = 'transform 0.35s ease';
     lightboxImage.style.transform = `scale(${zoomLevel}) translate(${currentX}px, ${currentY}px)`;
@@ -671,8 +639,7 @@ function showPrev(){
     isDragging = true;
     currentX = e.clientX - startX;
     currentY = e.clientY - startY;
-    // limităm transformările astfel încât să nu scapi poza din interior (constrângere aproximativă)
-    // Observație: Calculul exact dependente de dimensiunea imaginii vizibile; păstrăm simple limitări (îmbunătățim la nevoie).
+
     lightboxImage.style.transform = `scale(${zoomLevel}) translate(${currentX}px, ${currentY}px)`;
   });
   window.addEventListener('mouseup', ()=>{
@@ -682,11 +649,9 @@ function showPrev(){
     }
   });
 
-  // Prevenim închiderea când dai click pe toolbar (sau copii ai acestui element)
   toolbar.addEventListener('click', (e)=> e.stopPropagation());
   toolbar.addEventListener('mousedown', (e)=> e.stopPropagation());
 
-  // control vizibilitate toolbar când mouse e în apropiere
   let toolbarVisible = false;
   lightbox.addEventListener('mousemove', (e)=>{
     const rect = toolbar.getBoundingClientRect();
@@ -710,7 +675,7 @@ function showPrev(){
     updateZoomIcon();
   }
 })();
-  /* ===== Topbar scroll logic (profesional, fără height fix) ===== */
+  /* ===== Topbar scroll logic ===== */
 const topbar = document.getElementById('topbar');
 let lastScrollY = window.scrollY;
 let state = 0; // 0 = initial, 1 = with-bg, 2 = hidden
@@ -842,7 +807,6 @@ document.addEventListener("DOMContentLoaded", () => {
       opt.setAttribute("aria-selected", opt.dataset.lang === lang);
     });
 
-    // Anunță restul scripturilor că limba s-a schimbat
     document.dispatchEvent(new Event("languageChanged"));
   }
 
@@ -1035,21 +999,17 @@ viewMoreBtn.addEventListener('click', () => {
 <script>
 window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
-  const total = 4500; // durata totală a animației shine
-  const anticipate = 1300; // pornim fade-out cu 1.3s înainte
+  const total = 4500;
+  const anticipate = 1500;
   const start = performance.now();
   const elapsed = (performance.now() - start) % total;
   const remaining = total - elapsed;
-
-  // Așteaptă până se termină ciclul curent, dar începe fade-out-ul cu anticipare
   const wait = remaining > anticipate ? remaining - anticipate : 0;
-
   setTimeout(() => {
     loader.classList.add("hide");
     setTimeout(() => loader.remove(), 1400);
   }, wait);
 });
-
 </script>
 </body>
 </html>
