@@ -6,33 +6,33 @@
 <title>STREETX — Site Oficial (with improved Lightbox toolbar)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ================= GLOBAL ================= */
 :root {
+  color-scheme: dark;
   --nav-height: 110px;
   --accent: rgba(255,255,255,.95);
 }
-
 html, body {
-  overflow-y: scroll; /* menține scrollbarul mereu activ */
   scrollbar-width: thin;
   scrollbar-color: rgba(120,120,120,0.7) transparent;
 }
-html::-webkit-scrollbar {
+body::-webkit-scrollbar {
   width: 10px;
 }
-html::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
   background-color: rgba(120,120,120,0.7);
   border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
-html::-webkit-scrollbar-thumb:hover {
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
   background-color: rgba(160,160,160,0.8);
 }
-
-.refresh-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(120,120,120,0.7) !important;
-}
-
-/* Body */
 body {
   margin: 0;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -46,7 +46,6 @@ body {
   -ms-user-select: none;
 }
 
-/* === TOPBAR === */
 .topbar{position:fixed;top:0;left:0;right:0;height:var(--nav-height);display:flex;align-items:center;justify-content:space-between;padding:0 50px;z-index:100;background:transparent;backdrop-filter:none;transition:background .5s ease,backdrop-filter .5s ease,transform .6s ease,opacity .6s ease;}
 .topbar.with-bg{background:rgba(0,0,0,.55);backdrop-filter:blur(14px)saturate(140%)brightness(1.1);box-shadow:0 0 20px rgba(255,255,255,.05);opacity:1;transform:translateY(0);}
 .topbar.hidden{opacity:0;transform:translateY(calc(-1*var(--nav-height)));pointer-events:none;}
@@ -60,15 +59,12 @@ body {
 .btn-nav{display:inline-flex;align-items:center;justify-content:center;padding:15px 36px;border-radius:999px;border:none;background:transparent;color:rgba(255,255,255,.75);font-weight:700;text-decoration:none;font-size:15px;letter-spacing:.4px;white-space:nowrap;transition:all .25s ease;}
 .btn-nav:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);backdrop-filter:blur(10px)saturate(140%);box-shadow:0 8px 24px rgba(0,0,0,.6),inset 0 0 14px rgba(255,255,255,.35);}
 
-/* === BUTOANE EXISTENTE === */
 .btn-play,.btn-check{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 30px;border-radius:999px;border:1.5px solid rgba(255,255,255,.8);background:transparent;color:var(--accent);font-weight:700;text-decoration:none;font-size:15px;letter-spacing:.4px;white-space:nowrap;transition:all .25s ease;box-shadow:0 0 8px rgba(255,255,255,.3),inset 0 0 8px rgba(255,255,255,.08);}
 .btn-play:hover,.btn-check:hover{background:rgba(255,255,255,.2);box-shadow:0 0 12px rgba(255,255,255,.45),inset 0 0 16px rgba(255,255,255,.5);border-color:rgba(255,255,255,.9);}
 
-/* === BUTON DE NAVIGARE (GALLERY/HOME) === */
 .btn-nav{display:inline-flex;align-items:center;justify-content:center;padding:15px 36px;border-radius:999px;border:none;background:transparent;color:var(--accent);font-weight:700;text-decoration:none;font-size:15px;letter-spacing:.4px;white-space:nowrap;transition:all .25s ease;}
 .btn-nav:hover{background:rgba(255,255,255,.06);backdrop-filter:blur(10px)saturate(140%);box-shadow:0 8px 24px rgba(0,0,0,.6),inset 0 0 14px rgba(255,255,255,.35);}
 
-/* GALLERY */
 :root { --gallery-gap:26px; --gallery-columns:3; }
 .gallery-section{padding:180px 6vw 100px;background:#000;}
 .gallery-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
@@ -101,12 +97,11 @@ body {
 .community-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 32px;border-radius:999px;border:1.5px solid rgba(255,255,255,.8);background:transparent;color:#f8f8ff;font-weight:700;font-size:15px;letter-spacing:.4px;text-decoration:none;white-space:nowrap;transition:all .25s ease;box-shadow:0 0 8px rgba(255,255,255,.3),inset 0 0 8px rgba(255,255,255,.08)}
 .community-btn:hover{background:rgba(255,255,255,.2);box-shadow:0 0 12px rgba(255,255,255,.45),inset 0 0 16px rgba(255,255,255,.5);border-color:rgba(255,255,255,.95)}
 
-/* === FOOTER === */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 footer,.footer-copy{background:#000;font-family:'Poppins',sans-serif;color:#44413a}
 footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:flex-end;font-weight:400;letter-spacing:.4px}
 .footer-left,.footer-center,.year{font-size:15px}
-.footer-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center;} /* centrat perfect */
+.footer-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center;}
 .footer-right{text-align:center}
 .social-icons{display:flex;gap:14px;justify-content:center;margin-bottom:20px;transform:translateX(-10px)}
 .social-icons img{width:30px;border-radius:10px;filter:grayscale(100%) brightness(.6);transition:filter .15s}
@@ -114,12 +109,23 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .year{margin-top:6px}
 .footer-copy{text-align:center;margin:15px 0 0;padding:15px 0 25px;font-weight:600;font-size:12px;letter-spacing:1px;text-transform:uppercase}
 
-/* === LIGHTBOX === */
 .lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);justify-content:center;align-items:center;z-index:9999;overflow:hidden;opacity:0;transition:opacity .4s ease;}
 .lightbox.show{display:flex;opacity:1;}
+.lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.95);justify-content:center;align-items:center;overflow:hidden;opacity:0;transition:opacity .4s ease;}
+.lightbox.show{display:flex;opacity:1;}
+.lightbox.fade-in{display:flex;opacity:0;animation:lightboxFadeIn .4s ease forwards;}
+@keyframes lightboxFadeIn{from{opacity:0;}to{opacity:1;}}
 .lightbox.fade-out{opacity:0;transition:opacity .4s ease;}
 .lightbox img#lightboxImage{max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 0 40px rgba(0,0,0,.6);transition:transform .5s ease,opacity .5s ease;will-change:transform;cursor:grab;}
 .lightbox img#lightboxImage:active{cursor:grabbing;}
+.lightbox img#lightboxImage {
+  max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 0 40px rgba(0,0,0,.6);
+  transition:transform .5s ease,opacity .5s ease;will-change:transform,opacity;cursor:grab;
+}
+.lightbox.slide-left img#lightboxImage{animation:slideLeft .45s ease;}
+.lightbox.slide-right img#lightboxImage{animation:slideRight .45s ease;}
+@keyframes slideLeft{0%{transform:translateX(40px);opacity:0;}100%{transform:translateX(0);opacity:1;}}
+@keyframes slideRight{0%{transform:translateX(-40px);opacity:0;}100%{transform:translateX(0);opacity:1;}}
 .toolbar-btn,.close-btn{width:46px;height:46px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:rgba(255,255,255,.06);backdrop-filter:blur(10px)saturate(140%);box-shadow:0 8px 24px rgba(0,0,0,.6);border:none;cursor:pointer;transition:all .25s ease;}
 .close-btn{position:fixed;top:28px;right:45px;z-index:10005;}
 .toolbar-btn:hover,.close-btn:hover{background:rgba(255,255,255,.14);box-shadow:inset 0 0 14px rgba(255,255,255,.4);}
@@ -138,13 +144,12 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .toolbar-btn:active img{transform:scale(.97);}
 @media(max-width:720px){.toolbar-inner{gap:8px;padding:6px 8px}.toolbar-btn{width:36px;height:36px}.close-btn{right:18px}.lightbox-toolbar{right:70px;top:16px}}
 
-/* ========== LANG SELECTOR (TEXT MAI APROAPE DE GLOB) ========== */
 .lang{position:relative;top:-20px;margin-left:-80px;}
 #langBtn{display:flex;align-items:center;gap:14px;background:none;border:none;cursor:pointer;font:600 13.5px 'Poppins',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#77746b;transition:color .2s;}
 #langBtn:hover{color:#999688;}
-.lang-icon{width:22px;height:22px;filter:grayscale(100%) brightness(.8);margin-right:-6px;} /* text mai aproape de glob */
-#langBtnText{color:#d2d2d2;} /* gri deschis spre alb */
-.lang-arrow{width:18px;height:18px;transition:transform .25s ease;filter:brightness(.8);margin-left:10px;} /* mai mult spațiu între text și săgeată */
+.lang-icon{width:22px;height:22px;filter:grayscale(100%) brightness(.8);margin-right:-6px;}
+#langBtnText{color:#d2d2d2;}
+.lang-arrow{width:18px;height:18px;transition:transform .25s ease;filter:brightness(.8);margin-left:10px;}
 #langBtn[aria-expanded="true"] .lang-arrow{transform:rotate(180deg);}
 .lang-menu{display:none;position:absolute;left:0;bottom:100%;margin-bottom:6px;background:#0d0d0d;border:1.5px solid rgba(180,180,180,.25);border-radius:10px;min-width:150px;z-index:999;text-align:left;padding:4px 0;box-shadow:0 0 10px rgba(255,255,255,.08),0 0 6px rgba(160,160,160,.1);max-height:115px;overflow-y:auto;scrollbar-width:none;}
 .lang-menu::-webkit-scrollbar{display:none;}
@@ -154,13 +159,12 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .lang-option:hover{background:#1c1c1c;color:#fff;}
 .lang-option:not(:last-child){border-bottom:1px solid rgba(255,255,255,.07);}
 
-  #loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;} 
+#loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;} 
 #loader.hide{opacity:0;pointer-events:none;}
 .shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
 .shine-mask::before{content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 4.5s cubic-bezier(.30,0,.15,1) forwards;}
 @keyframes shine{0%{left:0%;}100%{left:100%;}}
   
-/* === VARIANTA MOBILĂ FINALĂ COMBINATĂ (FĂRĂ HERO) === */
 #loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;}
 #loader.hide{opacity:0;pointer-events:none;}
 .shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
@@ -182,14 +186,14 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .date-label{font-size:11px;padding:5px 10px;}
 .view-more-btn{font-size:12px;padding:8px 16px;}
 .actions{margin-top:32px;}
-.shine-mask{width:95vw;aspect-ratio:2.5/1;} /* logo mai mare pe mobil */
+.shine-mask{width:95vw;aspect-ratio:2.5/1;}
 }
 @media(max-width:360px){
 .gallery-section{padding:100px 4vw 60px;}
 .gallery-title{font-size:24px;}
 .gallery-grid{gap:14px;}
 .shine-mask{width:100vw;}
-.btn-nav{transform:translateX(-20%);} /* ajustare extra pt ecrane mici */
+.btn-nav{transform:translateX(-20%);}
 }
 </style>
 </head>
@@ -198,7 +202,7 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 <header class="topbar" id="topbar">
   <img class="logo" src="https://iili.io/KshRKZB.png" alt="Studio Logo">
   <div class="nav-center">
-    <a class="btn-nav" href="./">GALLERY</a>
+    <a class="btn-nav" href="index.html">GALLERY</a>
   </div>
   <div class="nav-right">
     <a class="btn-play" href="https://www.roblox.com/games/118453831024315/THE-CANYON-STREETX" target="_blank">
@@ -217,7 +221,6 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
       <a id="sortToggle" class="btn-play sort-toggle"><span>OLDEST</span></a>
     </div>
     <div class="gallery-grid" id="galleryGrid">
-      <!-- imaginile tale (am păstrat aceleași linkuri) -->
       <div class="card"><span class="date-label">Nov 1, 2025</span><img src="https://iili.io/KLVSFDX.png" alt=""></div>
       <div class="card"><span class="date-label">Nov 1, 2025</span><img src="https://iili.io/KLVS3Nt.png" alt=""></div>
       <div class="card"><span class="date-label">Nov 1, 2025</span><img src="https://iili.io/KLVS2RI.png" alt=""></div>
@@ -252,11 +255,11 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
   </section>
   <!-- FULLSCREEN LIGHTBOX -->
 <div class="lightbox" id="lightbox" aria-hidden="true">
-  <!-- CLOSE BUTTON (acum identic cu toolbar) -->
+  <!-- CLOSE BUTTON -->
   <button class="close-btn" id="closeBtn" title="Close">
     <img src="https://iili.io/KZPRpuj.png" alt="Close">
   </button>
-  <!-- TOOLBAR (Download + Zoom) -->
+  <!-- TOOLBAR -->
   <div class="lightbox-toolbar" id="lightboxToolbar" aria-hidden="false">
     <div class="toolbar-inner">
       <button class="toolbar-btn" id="downloadBtn" title="Download (save)">
@@ -271,7 +274,6 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
   <img id="lightboxImage" src="" alt="Lightbox image">
   <img class="arrow right-arrow" id="rightArrow" src="https://iili.io/KLlYHCB.png" alt="right">
 </div>
-<!-- === COMMUNITY SECTION === -->
 <section class="community-section">
   <div class="community-bg"></div>
   <div class="community-fade-top"></div>
@@ -283,7 +285,6 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
     <a href="https://discord.gg/xSTRtG5UQj" target="_blank" rel="noopener" class="community-btn">JOIN DISCORD</a>
   </div>
 </section>
-<!-- FOOTER -->
 <footer>
   <div class="footer-left">Cameleon Games</div>
   <div class="footer-center">
@@ -320,15 +321,12 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
     <div class="year">MMXXII</div>
   </div>
 </footer>
-<!-- COPYRIGHT -->
 <div class="footer-copy">
   © 2025 StreetX. All rights reserved.
 </div>
 <script>
-/* ================= TOPBAR SLIDE ================= */
 const slidesContainer = document.getElementById('slides');
 
-/* ================= LIGHTBOX (complet, cu toolbar funcțional) ================= */
 (function(){
   const lightbox=document.getElementById('lightbox');
   const lightboxImage=document.getElementById('lightboxImage');
@@ -343,53 +341,57 @@ const slidesContainer = document.getElementById('slides');
   const cards = Array.from(galleryGrid.querySelectorAll('.card'));
   let currentIndex = 0;
 
-  /* open/close */
-  function openLightbox(index){
-    currentIndex = index;
-    lightboxImage.src = cards[index].querySelector('img').src;
-    lightbox.classList.add('show');
-    lightbox.setAttribute('aria-hidden','false');
-    resetZoomSmooth(); // asigurăm că imaginea începe normal la deschidere
-  }
-  function closeLightbox(){
-    lightbox.classList.add('fade-out');
-    setTimeout(()=>{
-      lightbox.classList.remove('show','fade-out');
-      lightbox.setAttribute('aria-hidden','true');
-      /* optional: clear src to help memory */
-      // lightboxImage.src = '';
-    },400);
-  }
+  function openLightbox(i){
+  currentIndex=i;
+  lightboxImage.src=cards[i].querySelector('img').src;
+  lightbox.classList.remove('fade-out','show');
+  lightbox.style.display='flex';
+  lightbox.classList.add('fade-in');
+  lightbox.setAttribute('aria-hidden','false');
+  resetZoomSmooth();
+  setTimeout(()=>{lightbox.classList.remove('fade-in');lightbox.classList.add('show');},400);
+}
+function closeLightbox(){
+  lightbox.classList.remove('show');
+  lightbox.classList.add('fade-out');
+  setTimeout(()=>{lightbox.classList.remove('fade-out');lightbox.style.display='none';lightbox.setAttribute('aria-hidden','true');},400);
+}
+
   /* next/prev cu tranziție și reset zoom */
-  function showNext() {
-    // animație simplă fade
-    lightboxImage.style.opacity = 0;
-    setTimeout(() => {
-      currentIndex = (currentIndex + 1) % cards.length;
-      lightboxImage.src = cards[currentIndex].querySelector('img').src;
-      resetZoomSmooth();
-      lightboxImage.style.opacity = 1;
-    }, 180);
-  }
-  function showPrev() {
-    lightboxImage.style.opacity = 0;
-    setTimeout(() => {
-      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-      lightboxImage.src = cards[currentIndex].querySelector('img').src;
-      resetZoomSmooth();
-      lightboxImage.style.opacity = 1;
-    }, 180);
-  }
-  /* click pe thumb deschide */
+  function showNext(){
+  lightbox.classList.remove('slide-left','slide-right');
+  lightboxImage.style.opacity=0;
+  setTimeout(()=>{
+    currentIndex=(currentIndex+1)%cards.length;
+    lightboxImage.src=cards[currentIndex].querySelector('img').src;
+    resetZoomSmooth();
+    lightboxImage.style.opacity=1;
+    lightbox.classList.add('slide-left');
+    setTimeout(()=>lightbox.classList.remove('slide-left'),450);
+  },180);
+}
+function showPrev(){
+  lightbox.classList.remove('slide-left','slide-right');
+  lightboxImage.style.opacity=0;
+  setTimeout(()=>{
+    currentIndex=(currentIndex-1+cards.length)%cards.length;
+    lightboxImage.src=cards[currentIndex].querySelector('img').src;
+    resetZoomSmooth();
+    lightboxImage.style.opacity=1;
+    lightbox.classList.add('slide-right');
+    setTimeout(()=>lightbox.classList.remove('slide-right'),450);
+  },180);
+}
+
   cards.forEach((card,i)=>card.querySelector('img').addEventListener('click', (ev)=>{
     ev.preventDefault();
     openLightbox(i);
   }));
-  /* butoane close/arrow */
+
   closeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); closeLightbox(); });
   leftArrow.addEventListener('click', (e)=>{ e.stopPropagation(); showPrev(); });
   rightArrow.addEventListener('click', (e)=>{ e.stopPropagation(); showNext(); });
-  /* key controls */
+
   document.addEventListener('keydown', (e)=>{
     if(!lightbox.classList.contains('show')) return;
     if(e.key === 'Escape') { closeLightbox(); }
@@ -397,51 +399,44 @@ const slidesContainer = document.getElementById('slides');
     if(e.key === 'ArrowRight') { showNext(); }
   });
 
-  /* click pe fundal -> inchide DOAR daca target === lightbox (nu inchide la click pe toolbar sau image) */
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
-  /* ================= TOOLBAR FUNCȚIONAL ================= */
-  // Previmizi starea zoom
+
   let zoomLevel = 1;
   let isZoomed = false;
   let currentX = 0, currentY = 0;
   let startX = 0, startY = 0;
   let isDragging = false;
 
-  // actualizeaza icon zoom
   function updateZoomIcon(){
     const img = zoomBtn.querySelector('img');
-    if(isZoomed) img.src = 'https://iili.io/KZg837f.png'; // zoom out icon
-    else img.src = 'https://iili.io/KZg8Fe4.png'; // zoom in icon
+    if(isZoomed) img.src = 'https://iili.io/KZg837f.png';
+    else img.src = 'https://iili.io/KZg8Fe4.png';
   }
 
-  // Download (folosim link direct; poate fi CORS-limited)
   downloadBtn.addEventListener('click', (e)=>{
     e.stopPropagation();
-    // încercăm metoda simplă:
+
     const a = document.createElement('a');
     a.href = lightboxImage.src;
-    // sugestie nume (poți schimba)
+
     a.download = 'streetx-image.jpg';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   });
 
-  // Toggle zoom
   zoomBtn.addEventListener('click', (e)=>{
     e.stopPropagation();
     isZoomed = !isZoomed;
     zoomLevel = isZoomed ? 2 : 1;
-    // resetează offset când intri/ieși din zoom
     currentX = 0; currentY = 0;
     lightboxImage.style.transition = 'transform 0.35s ease';
     lightboxImage.style.transform = `scale(${zoomLevel}) translate(${currentX}px, ${currentY}px)`;
     updateZoomIcon();
   });
 
-  // Drag behaviour (mouse)
   lightboxImage.addEventListener('mousedown', (e)=>{
     if(!isZoomed) return;
     e.preventDefault();
@@ -455,8 +450,6 @@ const slidesContainer = document.getElementById('slides');
     isDragging = true;
     currentX = e.clientX - startX;
     currentY = e.clientY - startY;
-    // limităm transformările astfel încât să nu scapi poza din interior (constrângere aproximativă)
-    // Observație: Calculul exact dependente de dimensiunea imaginii vizibile; păstrăm simple limitări (îmbunătățim la nevoie).
     lightboxImage.style.transform = `scale(${zoomLevel}) translate(${currentX}px, ${currentY}px)`;
   });
   window.addEventListener('mouseup', ()=>{
@@ -466,11 +459,9 @@ const slidesContainer = document.getElementById('slides');
     }
   });
 
-  // Prevenim închiderea când dai click pe toolbar (sau copii ai acestui element)
   toolbar.addEventListener('click', (e)=> e.stopPropagation());
   toolbar.addEventListener('mousedown', (e)=> e.stopPropagation());
 
-  // control vizibilitate toolbar când mouse e în apropiere
   let toolbarVisible = false;
   lightbox.addEventListener('mousemove', (e)=>{
     const rect = toolbar.getBoundingClientRect();
@@ -483,7 +474,6 @@ const slidesContainer = document.getElementById('slides');
     else if(!inZone && toolbarVisible){ toolbar.classList.remove('visible'); toolbarVisible = false; }
   });
 
-  // Reset zoom cu animație când schimbăm imaginea
   function resetZoomSmooth(){
     isZoomed = false;
     zoomLevel = 1;
@@ -494,10 +484,9 @@ const slidesContainer = document.getElementById('slides');
     updateZoomIcon();
   }
 })();
-  /* ===== Topbar scroll logic (profesional, fără height fix) ===== */
 const topbar = document.getElementById('topbar');
 let lastScrollY = window.scrollY;
-let state = 0; // 0 = initial, 1 = with-bg, 2 = hidden
+let state = 0;
 
 function setTopbarState(newState) {
   if (state === newState) return;
@@ -538,20 +527,8 @@ window.addEventListener("scroll",()=>{
   }
 });
 </script>
-    <script>
-// 🔧 Scrollbar fix helper
-function refreshScrollbar() {
-  document.documentElement.classList.add("refresh-scrollbar");
-  setTimeout(() => {
-    document.documentElement.classList.remove("refresh-scrollbar");
-    document.documentElement.style.scrollbarColor = "rgba(120,120,120,0.7) transparent";
-  }, 150);
-}
-</script>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  /* ============ SISTEM MULTILANG (ENG / ALL) ============ */
   const translations = {
     de:{navBtn:"HEIM",newDevelopment:"NEUE ENTWICKLUNG",oldest:"ÄLTESTE",latest:"NEUESTE",viewMore:"MEHR ANZEIGEN +",viewLess:"WENIGER ANZEIGEN –",communityTitle:"Bleib über die Entwicklung auf dem Laufenden!",communityText:"Unser Roblox-Autospiel befindet sich noch in der frühen Entwicklungsphase – und du kannst dabei sein! Schau dir exklusive Einblicke an, stimme über Ideen ab, gib uns Feedback und hilf mit, das Spiel vor dem Release zu gestalten. Werde eines der ersten Mitglieder unserer Discord-Community und wachse von Anfang an mit uns!",joinDiscord:"DISCORD BEITRETEN",country:"Rumänien",rights:"© 2025 StreetX. Alle Rechte vorbehalten.",playOnRoblox:"AUF ROBLOX SPIELEN"},
     en:{navBtn:"HOME",newDevelopment:"NEW DEVELOPMENT",oldest:"OLDEST",latest:"LATEST",viewMore:"VIEW MORE +",viewLess:"VIEW LESS –",communityTitle:"Stay Updated on the Early Development Stage!",communityText:"Our Roblox car game is still in early development – and you can be part of the journey! Join us to see sneak peeks, vote on ideas, share feedback, and help shape the game before release. Become one of the first members of our Discord community and grow together with us from the start!",joinDiscord:"JOIN DISCORD",country:"Romania",rights:"© 2025 StreetX. All rights reserved.",playOnRoblox:"PLAY ON ROBLOX"},
@@ -616,7 +593,6 @@ document.addEventListener("DOMContentLoaded", () => {
       opt.setAttribute("aria-selected", opt.dataset.lang === lang);
     });
 
-    // Anunță restul scripturilor că limba s-a schimbat
     document.dispatchEvent(new Event("languageChanged"));
   }
 
@@ -643,8 +619,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  
-  /* ================= GALLERY + COLLAPSE/EXPAND ================= */
   const galleryGrid = document.getElementById("galleryGrid");
   const viewMoreBtn = document.getElementById("viewMoreBtn");
   const sortToggle = document.getElementById("sortToggle");
@@ -680,18 +654,15 @@ document.addEventListener("DOMContentLoaded", () => {
             : 1 - Math.pow(-2 * tEase + 2, 3) / 2;
         el.style.maxHeight = from + (to - from) * eased + "px";
         if (tEase < 1) requestAnimationFrame(step);
-else {
-  el.style.maxHeight = to + "px";
-  setTimeout(() => {
-    el.style.overflow = "";
-    isAnimating = false;
-    resolve();
-    refreshScrollbar(); // 👈 adaugă asta exact aici
-  }, 60);
-}
-
+        else {
+          el.style.maxHeight = to + "px";
+          setTimeout(() => {
+            el.style.overflow = "";
+            isAnimating = false;
+            resolve();
+          }, 60);
+        }
       }
-      
       requestAnimationFrame(step);
     });
   }
