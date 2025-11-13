@@ -193,8 +193,8 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 #loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;}
 #loader.hide{opacity:0;pointer-events:none;}
 .shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
-.shine-mask::before{content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 2.5s cubic-bezier(.3,0,.15,1) infinite;}
-@keyframes shine{0%{left:-80%;}100%{left:120%;}}
+.shine-mask::before{content:"";position:absolute;top:-200%;left:-100%;width:15%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 2.5s linear infinite;}
+@keyframes shine{0%{left:-100%;}100%{left:120%;}}
 
 /* === VARIANTA MOBILĂ FINALĂ COMBINATĂ === */
 #loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;}
@@ -996,7 +996,9 @@ viewMoreBtn.addEventListener('click', () => {
 </script>
 <script>
 document.body.style.overflow="hidden";
-window.addEventListener("load",()=>{const loader=document.getElementById("loader");const anticipate=2500;setTimeout(()=>{loader.classList.add("hide");setTimeout(()=>{loader.remove();document.body.style.overflow="auto";},1400);},anticipate);});
+const loader=document.getElementById("loader");
+const mask=loader.querySelector(".shine-mask::before");
+window.addEventListener("load",()=>{const anticipate=2500;setTimeout(()=>{loader.classList.add("hide");setTimeout(()=>{loader.remove();document.body.style.overflow="auto";},1400);},anticipate);});
 </script>
 </body>
 </html>
