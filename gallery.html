@@ -144,7 +144,7 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .toolbar-btn:active img{transform:scale(.97);}
 @media(max-width:720px){.toolbar-inner{gap:8px;padding:6px 8px}.toolbar-btn{width:36px;height:36px}.close-btn{right:18px}.lightbox-toolbar{right:70px;top:16px}}
 
-.lang{position:relative;top:-20px;margin-left:-80px;}
+.lang{position:relative;top:-20px;margin-left:0px;}
 #langBtn{display:flex;align-items:center;gap:14px;background:none;border:none;cursor:pointer;font:600 13.5px 'Poppins',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#77746b;transition:color .2s;}
 #langBtn:hover{color:#999688;}
 .lang-icon{width:22px;height:22px;filter:grayscale(100%) brightness(.8);margin-right:-6px;}
@@ -164,11 +164,12 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
 .shine-mask::before{content:"";position:absolute;top:-200%;left:-100%;width:15%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 2.5s linear infinite;}
 @keyframes shine{0%{left:-100%;}100%{left:120%;}}
-  
+
+/* === VARIANTA MOBILĂ FINALĂ COMBINATĂ === */
 #loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;}
 #loader.hide{opacity:0;pointer-events:none;}
 .shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
-.shine-mask::before{content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 4.5s cubic-bezier(.30,0,.15,1) forwards;}
+.shine-mask::before{content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 4.5s cubic-bezier(.30,0,.15,1) infinite;}
 @keyframes shine{0%{left:0}100%{left:100%}}
 @media(max-width:1250px){
 :root{--nav-height:65px}
@@ -196,20 +197,58 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .shine-mask{width:100vw}
 .btn-nav{transform:translateX(-20%)}
 }
+
+/* ===== DESKTOP DEFAULT ===== */
+.nav-mobile{display:none!important;}
+.nav-icon{display:none!important;}
+.nav-desktop{display:flex!important;}
+
+/* ===== MOBILE ===== */
+@media(max-width:1250px){
+
+.nav-desktop{display:none!important;}
+.nav-mobile{display:flex!important;}
+.nav-icon{display:flex!important;}
+
+.nav-icon{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);margin:0 4px;border:1px solid rgba(255,255,255,.08);box-shadow:0 0 8px rgba(255,255,255,.08);transition:background .35s ease,box-shadow .35s ease,border .35s ease;}
+.nav-icon img{width:20px;height:20px;object-fit:contain;opacity:.9;}
+.nav-icon:hover{background:rgba(255,255,255,.1);box-shadow:0 0 10px rgba(255,255,255,.5);}
+.nav-center{display:flex;gap:12px;align-items:center;justify-content:center;}
+
+.roblox-btn{width:60px;height:36px;border-radius:12px;}
+.roblox-btn img{width:37px;height:auto;}
+
+}
 </style>
 </head>
 <body>
 <div id="loader"><div class="shine-mask cameleon"></div></div>
 <header class="topbar" id="topbar">
-  <img class="logo" src="https://iili.io/KshRKZB.png" alt="Studio Logo">
-  <div class="nav-center">
-    <a class="btn-nav" href="./">HOME</a>
-  </div>
-  <div class="nav-right">
-    <a class="btn-play" href="https://www.roblox.com/games/118453831024315/THE-CANYON-STREETX" target="_blank">
-      <span>PLAY ON ROBLOX</span>
-    </a>
-  </div>
+
+<img class="logo" src="https://iili.io/KshRKZB.png" alt="Studio Logo">
+
+<div class="nav-center">
+
+<a class="btn-nav nav-desktop" href="./">HOME</a>
+
+<a class="nav-icon nav-mobile" href="./">
+<img src="https://iili.io/qTdWOg9.png">
+</a>
+
+</div>
+
+<div class="nav-right">
+
+<a class="btn-play nav-desktop" href="https://www.roblox.com/games/118453831024315/THE-CANYON-STREETX" target="_blank">
+<span>PLAY ON ROBLOX</span>
+</a>
+
+<a class="nav-icon nav-mobile roblox-btn" href="https://www.roblox.com/games/118453831024315/THE-CANYON-STREETX" target="_blank">
+<img src="https://iili.io/qzYbdMb.png">
+</a>
+
+</div>
+
 </header>
 <main>
   <section class="hero">
@@ -222,10 +261,10 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
       <a id="sortToggle" class="btn-play sort-toggle"><span>OLDEST</span></a>
     </div>
     <div class="gallery-grid" id="galleryGrid">
-      <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qq1NRtV.png" alt=""></div>
-      <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qq1NYMP.png" alt=""></div>
-      <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qq1N7oB.png" alt=""></div>
-      <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qqEBOw7.png" alt=""></div>
+      <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qCNlcdB.png" alt=""></div>
+      <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qCNl0e1.png" alt=""></div>
+      <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qCNll5P.png" alt=""></div>
+      <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qCNl70Q.png" alt=""></div>
       <div class="card"><span class="date-label">Jan 1, 2026</span><img src="https://iili.io/fXHefyP.png" alt=""></div>
       <div class="card"><span class="date-label">Jan 1, 2026</span><img src="https://iili.io/fXHexna.png" alt=""></div>
       <div class="card"><span class="date-label">Jan 1, 2026</span><img src="https://iili.io/fXHeBu1.png" alt=""></div>
@@ -323,6 +362,12 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
     <div class="social-icons">
       <a href="https://www.youtube.com/@games_test5500" target="_blank">
         <img src="https://iili.io/FD6dmUN.webp" alt="YouTube">
+      </a>
+      <a href="https://www.instagram.com/cameleongames/" target="_blank">
+        <img src="https://iili.io/q7vg2gn.webp" alt="Instagram">
+      </a>
+      <a href="https://tiktok.com/@cameleon.games" target="_blank">
+        <img src="https://iili.io/q5f3muV.webp" alt="TikTok">
       </a>
       <a href="https://discord.gg/xSTRtG5UQj" target="_blank">
         <img src="https://iili.io/FDvVlee.webp" alt="Discord">
@@ -821,4 +866,3 @@ document.body.style.overflow="hidden";const l=document.getElementById("loader"),
 </script>
 </body>
 </html>
-
