@@ -63,7 +63,7 @@ body {
 .topbar.hidden{opacity:0;transform:translateY(calc(-1*var(--nav-height)));pointer-events:none;}
 .topbar.initial{background:transparent;backdrop-filter:none;box-shadow:none;opacity:1;transform:translateY(0);}
 .topbar.dropdown-active{background:rgba(0,0,0,.93)!important;backdrop-filter:blur(25px) brightness(1);}
-.logo{height:100px;margin-left:0;transition:transform .3s ease;}
+.logo{height:20px;margin-left:0;transition:transform .3s ease;}
 .logo:hover{transform:scale(1);}
 .nav-right{display:flex;gap:16px;align-items:center;}
 .nav-center{position:absolute;left:50%;transform:translateX(-50%);}
@@ -221,15 +221,15 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 
 #loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;}
 #loader.hide{opacity:0;pointer-events:none;}
-.shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
-.shine-mask::before{content:"";position:absolute;top:-200%;left:-100%;width:15%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 2.5s linear infinite;}
+    .shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://red-junina-32.tiiny.site/CameleonLogo.svg") center/contain no-repeat;-webkit-mask:url("https://red-junina-32.tiiny.site/CameleonLogo.svg") center/contain no-repeat;overflow:hidden;}
+.shine-mask::before{content:"";position:absolute;top:-200%;left:-100%;width:15%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 2.5s linear infinite;}
 @keyframes shine{0%{left:-100%;}100%{left:120%;}}
 
 /* === VARIANTA MOBILĂ FINALĂ COMBINATĂ === */
 #loader{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#000;z-index:999999;opacity:1;transition:opacity 1.4s ease;}
 #loader.hide{opacity:0;pointer-events:none;}
-.shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;-webkit-mask:url("https://teal-alli-78.tiiny.site/Cameleon-Logo.svg") center/contain no-repeat;overflow:hidden;}
-.shine-mask::before{content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,.9) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 4.5s cubic-bezier(.30,0,.15,1) infinite;}
+.shine-mask{position:relative;width:30vw;aspect-ratio:2.5/1;background:rgba(120,120,120,.25);mask:url("https://red-junina-32.tiiny.site/CameleonLogo.svg") center/contain no-repeat;-webkit-mask:url("https://red-junina-32.tiiny.site/CameleonLogo.svg") center/contain no-repeat;overflow:hidden;}
+.shine-mask::before{content:"";position:absolute;top:-200%;left:-80%;width:10%;height:500%;background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 100%);transform:rotate(50deg);animation:shine 4.5s cubic-bezier(.30,0,.15,1) infinite;}
 @keyframes shine{0%{left:0%;}100%{left:100%;}}
 @media(max-width:1250px){
 :root{--nav-height:65px;}
@@ -282,6 +282,7 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 .nav-btn,.btn-nav{transform:translateX(-20%);}
 }
 .gms-btn,.btn-gms{transform:translateX(-20%);}
+}
 
 /* ===== DESKTOP DEFAULT ===== */
 .nav-mobile{display:none!important;}
@@ -314,14 +315,14 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 }
 
 .roblox-btn{width:60px;height:36px;border-radius:12px;}
-.roblox-btn img{width:37px;height:auto;}
+.roblox-btn img{width:37px;height:auto;}height:100%;object-fit:cover;object-position:center}
 
 </style>
 </head>
 <body>
 <div id="loader"><div class="shine-mask cameleon"></div></div>
 <header class="topbar" id="topbar">
-  <img class="logo" src="https://iili.io/KshRKZB.png" alt="Studio Logo">
+  <img class="logo" src="https://iili.io/B4Y9adQ.png" alt="Studio Logo">
  <div class="nav-center">
 
 <button class="btn-gms nav-desktop" id="gamesBtn">
@@ -329,13 +330,13 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
 <img src="https://iili.io/KD2S8OJ.th.png" class="gms-arrow">
 </button>
 
-<a class="btn-nav nav-desktop" href="./gallery">GALLERY</a>
+<a class="btn-nav nav-desktop" href="gallery.html">GALLERY</a>
 
 <a class="nav-icon nav-mobile" id="gamesIcon">
 <img src="https://iili.io/qzz2BKN.png">
 </a>
 
-<a class="nav-icon nav-mobile" href="./gallery">
+<a class="nav-icon nav-mobile" href="gallery.html">
 <img src="https://iili.io/qzz2ClI.png">
 </a>
 
@@ -357,13 +358,11 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
   <div class="games-dropdown" id="gamesDropdown">
 <div class="games-content">
 
-<a class="game-link" href="./streetxtc">
+<a class="game-link" href="Streetxtc.html">
 <img class="game-img" src="https://iili.io/qz2gZNt.png">
 </a>
 
-<a class="game-link" href="./streetx">
 <img class="game-img" src="https://iili.io/qxfpj5v.png">
-</a>
 
 </div>
 </div>
@@ -398,9 +397,6 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
       <a id="sortToggle" class="btn-play sort-toggle"><span>OLDEST</span></a>
     </div>
     <div class="gallery-grid" id="galleryGrid">
-      <div class="card"><span class="date-label">Apr 1, 2026</span><img src="https://iili.io/BqFdtFj.png" alt=""></div>
-      <div class="card"><span class="date-label">Apr 1, 2026</span><img src="https://iili.io/BqFdb8Q.png" alt=""></div>
-      <div class="card"><span class="date-label">Apr 1, 2026</span><img src="https://iili.io/BqF20D7.png" alt=""></div>
       <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qCNlcdB.png" alt=""></div>
       <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qCNl0e1.png" alt=""></div>
       <div class="card"><span class="date-label">Mar 1, 2026</span><img src="https://iili.io/qCNll5P.png" alt=""></div>
@@ -460,7 +456,7 @@ footer{padding:20px 28px;display:flex;justify-content:space-between;align-items:
   <div class="community-fade-top"></div>
   <div class="community-fade-bottom"></div>
   <div class="community-content">
-    <div class="community-logo"><img src="https://iili.io/FbvAzdP.png" alt="Studio Logo"></div>
+    <div class="community-logo"><img src="https://iili.io/B4Y9adQ.png" alt="Studio Logo"></div>
     <h2 class="community-title">Stay Updated on the Early Development Stage!</h2>
     <p class="community-text">Our Roblox car game is still in early development – and you can be part of the journey! Join us to see sneak peeks, vote on ideas, share feedback, and help shape the game before release. Become one of the first members of our Discord community and grow together with us from the start!</p>
     <a href="https://discord.gg/xSTRtG5UQj" target="_blank" rel="noopener" class="community-btn">JOIN DISCORD</a>
